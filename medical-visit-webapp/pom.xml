@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>it.dmnet</groupId>
+    <artifactId>MedicalVisit</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>medical-visit-webapp</artifactId>
+  <name>medical-visit-webapp</name>
+  <version>1.0.0</version>
+
+  <properties>
+    <node.version>v22.14.0</node.version> <!-- Specifica la versione di Node.js -->
+  </properties>
+
+  <packaging>jar</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.4.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>dist</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+
+
+  </build>
+
+  <profiles>
+    <profile>
+      <id>webapp</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>${maven-exec-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>npm install</id>
+                <phase>initialize</phase> <!-- Eseguito prima di compilare -->
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>install</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>npm run build</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase> <!-- Eseguito durante la fase di pacchetto -->
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>build</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- plugin per copiare i file statici-->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>${maven-resources-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>copy-static-resources</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <includeEmptyDirs>true</includeEmptyDirs>
+
+                  <outputDirectory>./target/classes/META-INF/resources/</outputDirectory> <!-- Dove mettere le risorse statiche -->
+                  <resources>
+                    <resource>
+                      <directory>${project.basedir}/dist
+                      </directory> <!-- Modifica con il percorso delle risorse statiche -->
+                      <include>**/*</include>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
