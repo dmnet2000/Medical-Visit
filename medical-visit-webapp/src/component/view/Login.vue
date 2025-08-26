@@ -1,7 +1,7 @@
 <template>
 <div class="login-page">
     <div class="logo-container">
-        <img src="../../../public/segugio.jpg" alt="Segugio Logo"  />
+        <img src="../../../public/Logo.png" alt="Segugio Logo"  />
     </div>
 
     <div class="login-container">
@@ -38,14 +38,17 @@ const error = ref('');
 const emit = defineEmits(['login-success']);
 
 async function handleLogin() {
-  try {
-    const jwt = await loginService(username.value, password.value);
-    authStore.login(username.value, jwt);
-    error.value = '';
-    router.push('/home');
-  } catch (e) {
-    error.value = 'Nome utente o password non validi';
-  }
+  //try {
+    //const jwt = await loginService(username.value, password.value);
+    if (username.value === 'admin' && password.value === 'password'){
+
+      authStore.login(username.value, 'JWTPLACEHOLDER');
+      error.value = '';
+      router.push('/home');
+    }
+  //} catch (e) {
+  //  error.value = 'Nome utente o password non validi';
+  //}
 }
 </script>
 

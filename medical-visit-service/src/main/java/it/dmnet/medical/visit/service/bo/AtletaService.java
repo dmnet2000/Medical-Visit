@@ -8,7 +8,7 @@ import java.util.List;
 public class AtletaService {
     private final List<Atleta> atleta = new ArrayList<>();
 
-    public void addPersona(Atleta persona) {
+    public void addAtleta(Atleta persona) {
         atleta.add(persona);
     }
 

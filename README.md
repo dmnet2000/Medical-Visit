@@ -1,19 +1,19 @@
-# Segugio
-#### Progetto che dovrà ricercare il claim di appartenenza di un utente.. ed eventualmente recuperare le info aggiuntive direttamente del claim di riferimento
+# Medical visit
+#### 
 
-## Autenticazione
- - per l'autenticazione è necessario censire le utenze in isec sul codFrontend + cliente
- - l'applicativo utilizzerà il be e contatterà UAA per staccare il token
 
 ## BE
+Quarkus
+ - [X] Aggiunta servizio Rest recupero dati da excel
+
+TODO:
+
+ - [ ] Aggiunta database
+ - 
 
 
 ## FE
-
-
+VueJs
+- Aggiunto upload file + base servizio
 
 TODO:
-- [ ] Finire il giro sync-claim + claim-consumer --> creare un segugioConsumer? prevedere un caricamento massivo? ()
-- [ ] docker file
-- [ ] pipeline
-- [ ] deployment 
