@@ -27,7 +27,7 @@ async function uploadFile() {
 
   try {
     // Sostituisci l’URL con quello del tuo servizio REST
-    const response = await fetch('https://tuo-backend/api/upload', {
+    const response = await fetch('http://localhost:8080/atleti/import-excel', {
       method: 'POST',
       body: formData,
       // Se serve autenticazione, aggiungi headers qui

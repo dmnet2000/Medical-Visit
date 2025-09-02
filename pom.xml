@@ -25,13 +25,7 @@
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-            <version>${quarkus.platform.version}</version>
-        </dependency>
-    </dependencies>
+
 
     <build>
         <pluginManagement>

@@ -5,6 +5,7 @@
 ## BE
 Quarkus
  - [X] Aggiunta servizio Rest recupero dati da excel
+ - [X] Test Servizio
 
 TODO:
 

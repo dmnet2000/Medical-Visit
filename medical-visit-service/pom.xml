@@ -142,12 +142,15 @@
         </plugins>
         <resources>
             <resource>
-                <directory>../segugio-webapp/dist</directory>
+                <directory>../medical-visit-webapp/dist</directory>
                 <targetPath>META-INF/resources</targetPath>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
             </resource>
             <!-- eventuali altre risorse -->
         </resources>
