@@ -1,0 +1,12 @@
+services:
+  db:
+    image: arm64v8/postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: medical
+      POSTGRES_USER: medical
+      POSTGRES_PASSWORD: medicalpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/pi/pgdata:/var/lib/postgresql/data
