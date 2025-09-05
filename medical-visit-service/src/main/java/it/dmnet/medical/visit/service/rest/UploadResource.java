@@ -1,6 +1,7 @@
 package it.dmnet.medical.visit.service.rest;
 
 import it.dmnet.medical.visit.model.dto.Atleta;
+import it.dmnet.medical.visit.service.bo.AtletaService;
 import it.dmnet.medical.visit.service.excel.ExcelImportService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -21,6 +22,9 @@ public class UploadResource {
     @Inject
     ExcelImportService excelImportService;
 
+    @Inject
+    AtletaService atletaService;
+
     Logger log = Logger.getLogger(UploadResource.class.getName());
 
 
@@ -32,11 +36,12 @@ public class UploadResource {
         log.info("invocazione rest import-excel:"+ file.getName());
         try {
             List<Atleta> atleti = excelImportService.importAtletiFromExcle(file);
-
-            atleti.forEach(atleta -> {
-                log.info(atleta.cognome);
-            });
-
+            //aggiornamento a db
+            try {
+                atletaService.updateAtleti(atleti);
+            }catch(Exception ex){
+                log.error(ex);
+            }
             return Response.ok(atleti).build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST)

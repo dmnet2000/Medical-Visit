@@ -17,13 +17,13 @@ public class Atleta {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "codice_fiscale")
     private String codiceFiscale;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="data_di_nascita")
     private LocalDate dataDiNascita;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="data_scadenza_visita_medica")
     private LocalDate dataScadenzaVisitaMedica;
 
     public Long getId() {
