@@ -5,7 +5,7 @@
     </div>
     
     <div class="home-container">
-      <h1>Benvenuto nella Home di Segugio!</h1>
+      <h1>Benvenuto nella Home di Visital Medic!</h1>
       <p>Login effettuato con successo.</p>
     </div>
     <div class="search-section">

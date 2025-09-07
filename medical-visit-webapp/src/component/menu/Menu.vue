@@ -3,7 +3,9 @@
         <div class="row justify-start q-gutter-xl">
             <q-btn flat round icon="home" @click="$router.push('/home')" />
             <!--<q-btn flat round icon="person" @click="$router.push('/profile')" />-->
-            <q-btn flat round icon="find" @click="$router.push('/home/search')" />
+            <q-btn flat round icon="Import" @click="$router.push('/home/import')" />
+            <q-btn flat round icon="Search" @click="$router.push('/home/search')" />
+            
         </div>
         <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
     </q-toolbar>

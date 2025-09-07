@@ -19,13 +19,14 @@ Quarkus
  - [X] creato Databse Postgres su server raspberry
  - [X] Aggiunta tabella nel db
  - [X] Aggiunta service per insert/update
+ - [X] Aggiunto servizio per ricercare singola atleta
 TODO:
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale Massiva
  - [ ] aggiungere servizio per update puntuale
  - [ ] Aggiungere crontab per aggiornamento automatico
  - [ ] Aggiugere gestione mail/messaggistica
- - 
+ - [ ] verificare perchè non c'è il risultato della ricerca
 
 
 ## FE
