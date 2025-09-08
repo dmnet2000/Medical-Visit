@@ -58,7 +58,7 @@ public class UploadResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<AtletaEntity> search(AtletaForm atletaForm) {
         log.info("invocazione rest search:" + atletaForm);
-        return atletaService.search(atletaForm.getCognome(), atletaForm.getNome(), atletaForm.getCodiceFiscale());
+        return atletaService.search(atletaForm.getCognome().toUpperCase(), atletaForm.getNome().toUpperCase(), atletaForm.getCodiceFiscale().toUpperCase());
     }
 
 

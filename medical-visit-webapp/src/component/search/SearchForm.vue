@@ -36,12 +36,23 @@
         <q-card-section>
           <div class="text-h6">Risultati ricerca</div>
           <q-table
-            :rows="atleti"
-            :columns="columns"
-            row-key="codiceFiscale" 
-            flat
-            dense
-          />
+          :rows="atleti"
+          :columns="columns"
+          row-key="codiceFiscale"
+          flat
+          dense
+        >
+      <template v-slot:body-cell-modifica="props">
+        <q-btn
+          flat
+          round
+          dense
+          icon="edit"
+          color="primary"
+          @click.stop="onModifica(props.row)"
+        />
+        </template>
+          </q-table>
         </q-card-section>
       </q-card>
     </div>
@@ -51,8 +62,11 @@
 
 <script setup lang="ts">
 import { QForm, QInput, QBtn, QIcon } from 'quasar';
+import { useAtletaStore } from '@/storage/atleti';
 import axios from 'axios';
 import { ref } from 'vue';
+import router from '@/router';
+
 
 const form = ref({
   nome: '',
@@ -64,29 +78,42 @@ const atleti = ref<any[]>([]);
 const columns = ref<any[]>([]);
 
 async function onSearch() {
-    try{
+    try {
         const response = await axios.post('http://localhost:8080/atleti/search', form.value);
-        console.log('res:', response.data)
         atleti.value = Array.isArray(response.data) ? response.data : [];
-    // Genera le colonne dinamicamente dalla prima risposta
-   
-    columns.value = atleti.value.length    
-      ? Object.keys(atleti.value[0]).map(key => ({
-          name: key,
-          label: key.charAt(0).toUpperCase() + key.slice(1),
-          field: key,
-          align: 'left',
-          sortable: true
-        }))
-      : [];
-       console.log('columns:', columns.value)
-    }catch (error){
+        // Genera le colonne dinamicamente dalla prima risposta
+        columns.value = atleti.value.length
+            ? [
+                ...Object.keys(atleti.value[0]).map(key => ({
+                    name: key,
+                    label: key.charAt(0).toUpperCase() + key.slice(1),
+                    field: key,
+                    align: 'left',
+                    sortable: true
+                })),
+                {
+                    name: 'modifica',
+                    label: '',
+                    field: 'modifica',
+                    align: 'right'
+                }
+            ]
+            : [];
+    } catch (error) {
         console.error('Errore nella ricerca:', error);
         atleti.value = [];
         columns.value = [];
     }
+}
+function onModifica(row: any) {
+  const atletiStore = useAtletaStore();
+  atletiStore.setSelected(row);
+  // Qui puoi aprire il dialog di modifica, navigare o gestire la modifica
+  router.push(`/home/search/${row.codiceFiscale}/modifica`);
   
 }
+
+
 </script>
 
 <style scoped>

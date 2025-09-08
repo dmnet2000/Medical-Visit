@@ -9,7 +9,10 @@ Funzioni:
  - cron per aggiornamento automatico dei dati.. come li recupero???
  - altre funzioni eventuali
  - gesione presenze?? 
-
+ - gestione squadre?
+ - Allenatori/gruppi
+ - Orari palestre
+ - Gestione base Utenti (profilazione + gestione password + gestione anagrafica)
 
 
 ## BE
@@ -20,22 +23,33 @@ Quarkus
  - [X] Aggiunta tabella nel db
  - [X] Aggiunta service per insert/update
  - [X] Aggiunto servizio per ricercare singola atleta
+ - [X] verificare perchè non c'è il risultato della ricerca
+ - [X] Rendere Upper case la ricerca
+
 TODO:
+
+ - [ ] aggiungere servizio per update puntuale
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale Massiva
- - [ ] aggiungere servizio per update puntuale
  - [ ] Aggiungere crontab per aggiornamento automatico
  - [ ] Aggiugere gestione mail/messaggistica
- - [ ] verificare perchè non c'è il risultato della ricerca
+ - [ ] Aggiungere servizio invio mail
+
+ 
 
 
 ## FE
 VueJs
-- Aggiunto upload file + base servizio
+- [X] Aggiunto upload file + base servizio
+- [X] Aggiunta ricerca a database + visualizzazione dati ricerca
+- [X] aggiunta modifica puntuale certificato medico 
+- [X] modificato menù con incone quasar.
+- [X] Modifica data certificato
+- [X] Ricerca atleti da database
 
 TODO:
+ - [ ] Aggiungere chiamata a servizio per modificare certificato medico
  - [ ] Auth (aggiunta a database), form di registrazione???
  - [ ] Gestire aggionramento dati a database
- - [ ] recupero dati da Db
  - [ ] Aggiornamento puntuale dei dati
- - 
+

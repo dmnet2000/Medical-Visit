@@ -1,16 +1,22 @@
 <template>
-    <q-toolbar class="bg-primary text-white">
-        <div class="row justify-start q-gutter-xl">
-            <q-btn flat round icon="home" @click="$router.push('/home')" />
-            <!--<q-btn flat round icon="person" @click="$router.push('/profile')" />-->
-            <q-btn flat round icon="Import" @click="$router.push('/home/import')" />
-            <q-btn flat round icon="Search" @click="$router.push('/home/search')" />
-            
-        </div>
-        <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
-    </q-toolbar>
-    
-  </template>  
+  <q-toolbar class="bg-primary text-white">
+    <div class="row justify-start q-gutter-xl">
+      <div class="menu-btn">
+        <q-btn flat round icon="home" @click="$router.push('/home')" />
+        <div class="menu-label">Home</div>
+      </div>
+      <div class="menu-btn">
+        <q-btn flat round icon="import_contacts" @click="$router.push('/home/import')" />
+        <div class="menu-label">Importa...</div>
+      </div>
+      <div class="menu-btn">
+        <q-btn flat round icon="search" @click="$router.push('/home/search')" />
+        <div class="menu-label">Ricerca Atleta</div>
+      </div>
+    </div>
+    <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
+  </q-toolbar>
+</template>
 
 
 <script setup lang="ts">

@@ -4,7 +4,7 @@
       <AppMenu :username="authStore.user ?? undefined"/>
     </div>
     
-    <div class="home-container">
+    <div v-if="isHomeRoot" class="home-container">
       <h1>Benvenuto nella Home di Visital Medic!</h1>
       <p>Login effettuato con successo.</p>
     </div>
@@ -18,13 +18,15 @@
 import AppMenu from '../menu/Menu.vue';
 import { useAuthStore } from '../../storage/auth';
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 
   const authStore = useAuthStore();
   const router = useRouter();
+  const isHomeRoot = computed(() => router.path === '/home')
 
   if (!authStore.isAuthenticated) {
     router.replace('/login');
-}
+  }
 </script>
 
 

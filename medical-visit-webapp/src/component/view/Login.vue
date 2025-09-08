@@ -1,7 +1,7 @@
 <template>
 <div class="login-page">
     <div class="logo-container">
-        <img src="../../../public/Logo.png" alt="Segugio Logo"  />
+        <img src="../../../public/Logo.png" alt="Volley Mogliano"  />
     </div>
 
     <div class="login-container">
