@@ -1,4 +1,4 @@
-import { Quasar, QCard, QCardSection, QForm, QInput, QBtn, QTable } from 'quasar'
+import { Quasar, QCard, QCardSection, QForm, QInput, QBtn, QTable, QDialog, QCardActions } from 'quasar'
 import quasarLang from 'quasar/lang/it'
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/dist/quasar.css'
@@ -15,5 +15,7 @@ export default {
     app.component('q-input', QInput)
     app.component('q-btn', QBtn)
     app.component('q-table', QTable)
+    
+    app.component('q-card-actions', QCardActions)
   }
 }

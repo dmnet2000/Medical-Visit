@@ -2,7 +2,7 @@
   <q-dialog :model-value="show" @update:model-value="onUpdateShow">
     <q-card>
       <q-card-section>
-        <div class="q-mb-md">
+        <div v-if="atleta" >
           <div><b>Nome:</b> {{ atleta?.nome }}</div>
           <div><b>Cognome:</b> {{ atleta?.cognome }}</div>
           <div><b>Codice Fiscale:</b> {{ atleta?.codiceFiscale }}</div>
@@ -33,7 +33,7 @@ watch(() => props.atleta, (val) => {
 })
 
 function salva() {
-  
+  console.log('Salva nuova data:', data.value)
   emit('saved', data.value)
   emit('update:show', false)
 }
