@@ -1,7 +1,6 @@
 package it.dmnet.medical.visit.service.excel;
 
 import it.dmnet.medical.visit.model.dto.Atleta;
-import it.dmnet.medical.visit.service.rest.UploadResource;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

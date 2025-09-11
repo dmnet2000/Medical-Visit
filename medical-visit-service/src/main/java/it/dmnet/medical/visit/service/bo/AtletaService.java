@@ -9,7 +9,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ApplicationScoped
@@ -22,11 +24,11 @@ public class AtletaService {
     public void updateAtleti(List<Atleta> listaAtleti) {
         log.info("updateAtleti:");
         for (Atleta atleta : listaAtleti) {
-             log.info("atleta:" + atleta);
+            log.info("atleta:" + atleta);
             AtletaEntity existing = atletaRepository.findByCodiceFiscale(atleta.getCodiceFiscale());
             log.info("atleta ricercata");
             if (existing != null) {
-                log.info("atleta esiste" );
+                log.info("atleta esiste");
                 existing.setCognome(atleta.getCognome());
                 existing.setNome(atleta.getNome());
                 existing.setDataDiNascita(atleta.getDataNascita());
@@ -73,4 +75,7 @@ public class AtletaService {
         return atletaRepository.find(query.toString(), params.toArray()).list();
     }
 
+    public int updateVisit(String codFiscale, LocalDate nuovaDataScadenza) {
+        return atletaRepository.updateDataScadenzaVisitaMedica(codFiscale, nuovaDataScadenza);
+    }
 }

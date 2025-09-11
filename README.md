@@ -25,10 +25,11 @@ Quarkus
  - [X] Aggiunto servizio per ricercare singola atleta
  - [X] verificare perchè non c'è il risultato della ricerca
  - [X] Rendere Upper case la ricerca
+ - [X] aggiungere servizio per update puntuale
 
 TODO:
 
- - [ ] aggiungere servizio per update puntuale
+ - 
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale Massiva
  - [ ] Aggiungere crontab per aggiornamento automatico
