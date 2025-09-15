@@ -29,6 +29,7 @@
       </q-card-section>
     </q-card>
 </q-form>
+<div v-if="msg" class="q-mb-md text-positive">{{ msg }}</div>
 
     <!-- Risultati della ricerca -->
     <div v-if="atleti.length" class="q-mt-lg">
@@ -65,8 +66,10 @@ import { QForm, QInput, QBtn, QIcon } from 'quasar';
 import { useAtletaStore } from '@/storage/atleti';
 import axios from 'axios';
 import { ref } from 'vue';
-import router from '@/router';
 
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 
 const form = ref({
   nome: '',
@@ -76,6 +79,7 @@ const form = ref({
 });
 const atleti = ref<any[]>([]);
 const columns = ref<any[]>([]);
+const msg = ref(route.query.msg || '')
 
 async function onSearch() {
     try {

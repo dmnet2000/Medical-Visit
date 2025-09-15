@@ -47,9 +47,10 @@ VueJs
 - [X] modificato menù con incone quasar.
 - [X] Modifica data certificato
 - [X] Ricerca atleti da database
+- [x] Aggiungere chiamata a servizio per modificare certificato medico
 
 TODO:
- - [ ] Aggiungere chiamata a servizio per modificare certificato medico
+ 
  - [ ] Auth (aggiunta a database), form di registrazione???
  - [ ] Gestire aggionramento dati a database
  - [ ] Aggiornamento puntuale dei dati

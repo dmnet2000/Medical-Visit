@@ -75,6 +75,7 @@ public class AtletaService {
         return atletaRepository.find(query.toString(), params.toArray()).list();
     }
 
+    @Transactional
     public int updateVisit(String codFiscale, LocalDate nuovaDataScadenza) {
         return atletaRepository.updateDataScadenzaVisitaMedica(codFiscale, nuovaDataScadenza);
     }
