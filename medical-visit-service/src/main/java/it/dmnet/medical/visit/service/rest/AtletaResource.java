@@ -1,17 +1,20 @@
 package it.dmnet.medical.visit.service.rest;
 
+import io.quarkus.mailer.Mail;
+import io.quarkus.mailer.Mailer;
+import io.quarkus.mailer.reactive.ReactiveMailer;
+import io.smallrye.common.annotation.Blocking;
 import it.dmnet.medical.visit.model.dto.Atleta;
 import it.dmnet.medical.visit.model.dto.AtletaForm;
 import it.dmnet.medical.visit.model.dto.UpdateVisitaForm;
 import it.dmnet.medical.visit.model.entity.AtletaEntity;
 import it.dmnet.medical.visit.service.bo.AtletaService;
 import it.dmnet.medical.visit.service.excel.ExcelImportService;
+import it.dmnet.medical.visit.service.mail.MailService;
+import it.dmnet.medical.visit.service.mail.SendGridService;
 import it.dmnet.medical.visit.utils.Utils;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
@@ -29,6 +32,14 @@ public class AtletaResource {
 
     @Inject
     AtletaService atletaService;
+
+    @Inject
+    MailService mailService;
+
+    @Inject
+    ReactiveMailer mailer;
+
+
 
     Logger log = Logger.getLogger(AtletaResource.class.getName());
 
@@ -83,5 +94,25 @@ public class AtletaResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
+
+
+    @GET
+    @Path("/mail")
+    @Blocking
+    public void sendMail() {
+        mailer.send(
+                Mail.withText(
+                        "umiledemarco82@gmail.com",
+                        "Test Quarkus ",
+                        "Questa è una mail di test per applicazione quarkus"
+                ).setFrom("volley@polisportivamogliano.it")
+        ).subscribe().with(
+                success -> System.out.println("Mail inviata!"),
+                failure -> failure.printStackTrace()
+        );
+    }
+
 
 }
