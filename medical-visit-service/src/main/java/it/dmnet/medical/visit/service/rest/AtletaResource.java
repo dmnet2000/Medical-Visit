@@ -1,7 +1,6 @@
 package it.dmnet.medical.visit.service.rest;
 
 import io.quarkus.mailer.Mail;
-import io.quarkus.mailer.Mailer;
 import io.quarkus.mailer.reactive.ReactiveMailer;
 import io.smallrye.common.annotation.Blocking;
 import it.dmnet.medical.visit.model.dto.Atleta;
@@ -11,7 +10,6 @@ import it.dmnet.medical.visit.model.entity.AtletaEntity;
 import it.dmnet.medical.visit.service.bo.AtletaService;
 import it.dmnet.medical.visit.service.excel.ExcelImportService;
 import it.dmnet.medical.visit.service.mail.MailService;
-import it.dmnet.medical.visit.service.mail.SendGridService;
 import it.dmnet.medical.visit.utils.Utils;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -21,7 +19,6 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 @Path("/atleti")
