@@ -27,9 +27,16 @@ Quarkus
  - [X] Rendere Upper case la ricerca
  - [X] aggiungere servizio per update puntuale
  - [X] Aggiunta invio mail di prova
+ - [X] Aggiugere gestione mail/messaggistica -->>>in corso 
+ - [X] Aggiunta Inserimento e visualizzazione Allenatore
+ 
 TODO:
 
- - [ ] Aggiugere gestione mail/messaggistica -->>>in corso 
+ - [ ] aggiungere Ricera Allenatore
+ - [ ] aggiungere Modifica + cancellazione allenatore
+ - [ ] Aggiungere Anno Agonistico
+ - [ ] Aggiungere Squadra 
+ - [ ] Aggiungere Associazione Atlete Squadra
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale Massiva
  - [ ] Aggiungere crontab per aggiornamento automatico
@@ -37,8 +44,6 @@ TODO:
  - [ ] Aggiungere servizio invio mail
 
  
-
-
 ## FE
 VueJs
 - [X] Aggiunto upload file + base servizio
@@ -53,5 +58,8 @@ TODO:
  
  - [ ] Auth (aggiunta a database), form di registrazione???
  - [ ] Gestire aggionramento dati a database
- - [ ] Aggiornamento puntuale dei dati
+ - [X] Aggiornamento puntuale dei dati Atleta
+ - [ ] Aggingere aggionramento Allenatori
+ - [ ] Aggiungere Squadre
+ - [ ] Aggingere associazione squadre
 
