@@ -5,9 +5,11 @@ import NotFound from '@/component/view/NotFound.vue';
 import Import from '@/component/search/Import.vue';
 import SearchForm from '@/component/search/SearchForm.vue';
 import ModifyAtleta from '@/component/crud/ModifyAtleta.vue';
+import CoachManager from '@/component/view/CoachManager.vue';
 
 const routes = [
     { path: '/home', component: Home , children: [ {path: 'import', component: Import },
+                                                   {path: 'coach', component: CoachManager },
                                                    {path: 'search', component: SearchForm },
                                                    {path: 'search/:id/modifica', component: ModifyAtleta}]},
     { path:'/login', component: Login },

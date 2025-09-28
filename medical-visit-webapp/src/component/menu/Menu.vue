@@ -13,6 +13,10 @@
         <q-btn flat round icon="search" @click="$router.push('/home/search')" />
         <div class="menu-label">Ricerca Atleta</div>
       </div>
+      <div class="menu-btn">
+        <q-btn flat round icon="search" @click="$router.push('/home/coach')" />
+        <div class="menu-label">Gestione Allenatore</div>
+      </div>
     </div>
     <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
   </q-toolbar>
