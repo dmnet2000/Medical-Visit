@@ -56,8 +56,55 @@
         </div>
       </div>
       <div v-else-if="view === 'search'">
-        <!-- Qui va il form di ricerca -->
-        <div class="q-mt-md">[Form Ricerca Allenatore]</div>
+        <q-form @submit.prevent="onCoachSearch" class="q-mt-md">
+  <q-input
+    filled
+    v-model="searchForm.nome"
+    label="Nome"
+    class="q-mb-sm"
+  />
+  <q-input
+    filled
+    v-model="searchForm.cognome"
+    label="Cognome"
+    class="q-mb-sm"
+  />
+  <div class="row justify-end">
+    <q-btn color="primary" type="submit" label="Cerca" />
+  </div>
+</q-form>
+<div v-if="searchResults.length" class="q-mt-md">
+  <q-table
+    :rows="searchResults"
+    :columns="columns"
+    row-key="id"
+    flat
+    dense
+  >
+   <template v-slot:body-cell-azioni="props">
+          <q-btn
+            flat
+            round
+            dense
+            icon="edit"
+            color="primary"
+            @click="onEditCoach(props.row)"
+            class="q-mr-sm"
+          />
+          <q-btn
+            flat
+            round
+            dense
+            icon="delete"
+            color="negative"
+            @click="onDeleteCoach(props.row)"
+          />
+        </template>
+        </q-table>
+</div>
+<div v-else-if="searchResultsRequested" class="q-mt-md text-grey">
+  Nessun allenatore trovato.
+</div>
       </div>
       <div v-else-if="view === 'add'">
         <q-form @submit.prevent="onCoachSave" class="q-mt-md">
@@ -158,6 +205,14 @@ const columns = [
 
 const isEditMode = ref(false)
 
+const searchForm = ref({
+  nome: '',
+  cognome: ''
+})
+
+const searchResults = ref<any[]>([])
+const searchResultsRequested = ref(false)
+
 async function loadCoaches() {
   try {
     const res = await axios.get('http://localhost:8080/allenatori/list')
@@ -222,4 +277,32 @@ async function onDeleteCoach(coachRow: any) {
     }
   }
 }
+
+async function onCoachSearch() {
+  try {
+    // Adatta l'endpoint secondo il tuo backend
+    const res = await axios.get('http://localhost:8080/allenatori/search', {
+      params: {
+        nome: searchForm.value.nome,
+        cognome: searchForm.value.cognome
+      }
+    })
+    // Filtra lato FE se il BE non supporta la ricerca
+    searchResults.value = res.data.filter((coach: any) => {
+      const matchNome = searchForm.value.nome
+        ? coach.nome.toLowerCase().includes(searchForm.value.nome.toLowerCase())
+        : true
+      const matchCognome = searchForm.value.cognome
+        ? coach.cognome.toLowerCase().includes(searchForm.value.cognome.toLowerCase())
+        : true
+      return matchNome && matchCognome
+    })
+    searchResultsRequested.value = true
+  } catch (error) {
+    searchResults.value = []
+    searchResultsRequested.value = true
+    console.error('Errore ricerca allenatore:', error)
+  }
+}
+
 </script>

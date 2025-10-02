@@ -61,4 +61,34 @@ public class AllenatoreResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @GET
+    @Path("/search")
+    public List<AllenatoreEntity> search(
+            @QueryParam("nome") String nome,
+            @QueryParam("cognome") String cognome
+    ) {
+        if ((nome == null || nome.isBlank()) && (cognome == null || cognome.isBlank())) {
+            // Nessun filtro, restituisci tutti
+            return repository.listAll();
+        }
+        // Costruisci la query dinamica
+        String query = "1=1";
+        if (nome != null && !nome.isBlank()) {
+            query += " and lower(nome) like ?1";
+        }
+        if (cognome != null && !cognome.isBlank()) {
+            query += " and lower(cognome) like ?2";
+        }
+        // Parametri
+        Object[] params = new Object[]{
+                nome != null && !nome.isBlank() ? "%" + nome.toLowerCase() + "%" : null,
+                cognome != null && !cognome.isBlank() ? "%" + cognome.toLowerCase() + "%" : null
+        };
+        // Rimuovi parametri nulli
+        List<Object> filteredParams = new java.util.ArrayList<>();
+        if (params[0] != null) filteredParams.add(params[0]);
+        if (params[1] != null) filteredParams.add(params[1]);
+        return repository.list(query, filteredParams.toArray());
+    }
 }

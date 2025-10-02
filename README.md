@@ -31,7 +31,7 @@ Quarkus
  
 TODO:
 
- - [ ] aggiungere Ricera Allenatore
+ - [X] aggiungere Ricera Allenatore
  - [X] aggiungere Modifica + cancellazione allenatore
  - [ ] Aggiungere Anno Agonistico
  - [ ] Aggiungere Squadra 
