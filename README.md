@@ -37,12 +37,15 @@ TODO:
  - [ ] Aggiungere Squadra 
  - [ ] Aggiungere Associazione Atlete Squadra
  - [ ] parametrizzare le env per il database  
- - [ ] aggiungere servizio per update manuale Massiva
+ - [ ] aggiungere servizio per update manuale/massiva
  - [ ] Aggiungere crontab per aggiornamento automatico
-
  - [ ] Aggiungere servizio invio mail
-
- 
+ - [ ] Aggiungere gestione Authenticazione
+ - [ ] Aggiungere profilazione
+ - [ ] Aggiungere planning allenamenti squadra
+ - [ ] Aggiungere Presenze/assenze
+ - [ ] Inserimento Manuale Atleta 
+  
 ## FE
 VueJs
 - [X] Aggiunto upload file + base servizio
@@ -52,7 +55,11 @@ VueJs
 - [X] Modifica data certificato
 - [X] Ricerca atleti da database
 - [x] Aggiungere chiamata a servizio per modificare certificato medico
-
+- [ ] Creazione stagione soprtia
+- [ ] Aggiungere Gestione Squadra 
+  - [ ] Creazione nuova squadra/gruppo allenamento
+  - [ ] Associazione squadra/allenatore/Stagione Agonistica
+  - 
 TODO:
  
  - [ ] Auth (aggiunta a database), form di registrazione???
