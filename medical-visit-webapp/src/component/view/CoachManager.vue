@@ -30,7 +30,27 @@
           class="q-mt-md"
           flat
           dense
-        />
+        >
+        <template v-slot:body-cell-azioni="props">
+          <q-btn
+            flat
+            round
+            dense
+            icon="edit"
+            color="primary"
+            @click="onEditCoach(props.row)"
+            class="q-mr-sm"
+          />
+          <q-btn
+            flat
+            round
+            dense
+            icon="delete"
+            color="negative"
+            @click="onDeleteCoach(props.row)"
+          />
+        </template>
+      </q-table>
         <div v-if="coaches.length === 0" class="q-mt-md text-grey">
           Nessun allenatore presente.
         </div>
@@ -90,7 +110,7 @@
             <q-btn
             color="secondary"
             type="submit"
-            label="Salva Allenatore"
+            :label="isEditMode ? 'Salva Modifiche' : 'Salva Allenatore'"
             :disable="!isFormValid"
             />
         </div>
@@ -132,8 +152,11 @@ const columns = [
   { name: 'indirizzo', label: 'Indirizzo', field: 'indirizzo', align: 'left' },
   { name: 'indirizzoMail', label: 'Email', field: 'indirizzoMail', align: 'left' },
   { name: 'numeroTelefono', label: 'Telefono', field: 'numeroTelefono', align: 'left' },
-  { name: 'codiceFiscale', label: 'Codice Fiscale', field: 'codiceFiscale', align: 'left' }
+  { name: 'codiceFiscale', label: 'Codice Fiscale', field: 'codiceFiscale', align: 'left' },
+  { name: 'azioni', label: 'Azioni', field: 'azioni', align: 'right' }
 ]
+
+const isEditMode = ref(false)
 
 async function loadCoaches() {
   try {
@@ -152,9 +175,14 @@ function showList() {
 
 
 async function onCoachSave() {
-  try {
-    await axios.post('http://localhost:8080/allenatori/insert', coach.value)
-    // Reset form e feedback
+   try {
+    if (isEditMode.value) {
+      await axios.put(`http://localhost:8080/allenatori/update/${coach.value.id}`, coach.value)
+      alert('Allenatore modificato con successo!')
+    } else {
+      await axios.post('http://localhost:8080/allenatori/insert', coach.value)
+      alert('Allenatore salvato con successo!')
+    }
     coach.value = {
       nome: '',
       cognome: '',
@@ -163,15 +191,35 @@ async function onCoachSave() {
       numeroTelefono: '',
       codiceFiscale: ''
     }
-    alert('Allenatore salvato con successo!')
-    view.value = 'list'
+    isEditMode.value = false
+    showList()
   } catch (error) {
     alert('Errore nel salvataggio allenatore')
     console.error(error)
   }
 }
+
 // Carica la lista all'avvio se serve
 if (view.value === 'list') {
   loadCoaches()
+}
+
+function onEditCoach(coachRow: any) {
+  coach.value = { ...coachRow }
+  isEditMode.value = true
+  view.value = 'add'
+}
+
+async function onDeleteCoach(coachRow: any) {
+  if (confirm(`Vuoi davvero cancellare l'allenatore ${coachRow.nome} ${coachRow.cognome}?`)) {
+    try {
+      await axios.delete(`http://localhost:8080/allenatori/delete/${coachRow.id}`)
+      alert('Allenatore cancellato!')
+      loadCoaches()
+    } catch (error) {
+      alert('Errore nella cancellazione')
+      console.error(error)
+    }
+  }
 }
 </script>

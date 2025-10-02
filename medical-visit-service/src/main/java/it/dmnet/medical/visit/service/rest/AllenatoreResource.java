@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -30,5 +31,34 @@ public class AllenatoreResource {
     public AllenatoreEntity create(AllenatoreEntity allenatore) {
         repository.persist(allenatore);
         return allenatore;
+    }
+
+    @PUT
+    @Path("/update/{id}")
+    @Transactional
+    public Response update(@PathParam("id") Long id, AllenatoreEntity allenatore) {
+        AllenatoreEntity entity = repository.findById(id);
+        if (entity == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        entity.nome = allenatore.nome;
+        entity.cognome = allenatore.cognome;
+        entity.indirizzo = allenatore.indirizzo;
+        entity.indirizzoMail = allenatore.indirizzoMail;
+        entity.numeroTelefono = allenatore.numeroTelefono;
+        entity.codiceFiscale = allenatore.codiceFiscale;
+        return Response.ok(entity).build();
+    }
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        boolean deleted = repository.deleteById(id);
+        if (deleted) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }

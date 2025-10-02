@@ -1,10 +1,9 @@
 # Medical visit
 ## Applicaztivo per la gestione delle visite mediche,
 Funzioni:
- - upload manuale di Exel con elenco Atltete e scadenza visita medica
- - visualizzazione a video della lista ordinabile per campo degli atleti
- - aggiornamento a database dei dati
- - censimento Mail a cui inviare i report
+ - upload manuale di Exel con elenco Atltete e scadenza visita medica [X]
+ - visualizzazione  della lista ordinabile per campo degli atleti [x]
+ - censimento Mail a cui inviare i report (in anagrafica Allenatore)
  - invio mail per ricordare delle visite mediche (cron giornaliero) oppure invio messaggio whatsup
  - cron per aggiornamento automatico dei dati.. come li recupero???
  - altre funzioni eventuali
@@ -33,7 +32,7 @@ Quarkus
 TODO:
 
  - [ ] aggiungere Ricera Allenatore
- - [ ] aggiungere Modifica + cancellazione allenatore
+ - [X] aggiungere Modifica + cancellazione allenatore
  - [ ] Aggiungere Anno Agonistico
  - [ ] Aggiungere Squadra 
  - [ ] Aggiungere Associazione Atlete Squadra
@@ -59,7 +58,7 @@ TODO:
  - [ ] Auth (aggiunta a database), form di registrazione???
  - [ ] Gestire aggionramento dati a database
  - [X] Aggiornamento puntuale dei dati Atleta
- - [ ] Aggingere aggionramento Allenatori
+ - [X] Aggingere aggionramento Allenatori
  - [ ] Aggiungere Squadre
  - [ ] Aggingere associazione squadre
 
