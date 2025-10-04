@@ -17,6 +17,13 @@
         <q-btn flat round icon="search" @click="$router.push('/home/coach')" />
         <div class="menu-label">Gestione Allenatore</div>
       </div>
+      <div class="menu-btn">
+        <q-btn flat round icon="search" @click="$router.push('/home/anno')" />
+        <div class="menu-label">Gestione Anno Agonistico</div>
+      </div>
+      
+      
+
     </div>
     <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
   </q-toolbar>
