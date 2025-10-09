@@ -21,6 +21,10 @@
         <q-btn flat round icon="search" @click="$router.push('/home/anno')" />
         <div class="menu-label">Gestione Anno Agonistico</div>
       </div>
+      <div class="menu-btn">
+        <q-btn flat round icon="search" @click="$router.push('/home/squadre')" />
+        <div class="menu-label">Gestione Squadre</div>
+      </div>
       
       
 

@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 
 @ApplicationScoped
-public class AtletaRepositories implements PanacheRepository<AtletaEntity> {
+public class AtletaRepository implements PanacheRepository<AtletaEntity> {
     @Transactional
     public AtletaEntity findByCodiceFiscale(String codiceFiscale) {
         return find("codiceFiscale", codiceFiscale).firstResult();

@@ -1,8 +1,7 @@
 package it.dmnet.medical.visit.service.rest;
 
-import it.dmnet.medical.visit.model.entity.AllenatoreEntity;
 import it.dmnet.medical.visit.model.entity.AnnoAgonisticoEntity;
-import it.dmnet.medical.visit.model.repositories.AnnoAgonisticoRepositories;
+import it.dmnet.medical.visit.model.repositories.AnnoAgonisticoRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -18,7 +17,7 @@ import java.util.List;
 public class AnnoAgonisticoResource {
     Logger log = Logger.getLogger(AnnoAgonisticoResource.class.getName());
     @Inject
-    AnnoAgonisticoRepositories repository;
+    AnnoAgonisticoRepository repository;
 
     @POST
     @Path("/insert")

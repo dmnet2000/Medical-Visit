@@ -5,6 +5,6 @@ import it.dmnet.medical.visit.model.entity.AnnoAgonisticoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class AnnoAgonisticoRepositories implements PanacheRepository<AnnoAgonisticoEntity> {
+public class AnnoAgonisticoRepository implements PanacheRepository<AnnoAgonisticoEntity> {
 
 }

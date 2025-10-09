@@ -3,7 +3,7 @@ package it.dmnet.medical.visit.service.bo;
 
 import it.dmnet.medical.visit.model.dto.Atleta;
 import it.dmnet.medical.visit.model.entity.AtletaEntity;
-import it.dmnet.medical.visit.model.repositories.AtletaRepositories;
+import it.dmnet.medical.visit.model.repositories.AtletaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -11,13 +11,12 @@ import org.jboss.logging.Logger;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @ApplicationScoped
 public class AtletaService {
     @Inject
-    AtletaRepositories atletaRepository;
+    AtletaRepository atletaRepository;
     Logger log = Logger.getLogger(AtletaService.class.getName());
 
     @Transactional

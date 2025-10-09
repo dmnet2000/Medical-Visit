@@ -7,13 +7,15 @@ import SearchForm from '@/component/search/SearchForm.vue';
 import ModifyAtleta from '@/component/crud/ModifyAtleta.vue';
 import CoachManager from '@/component/view/CoachManager.vue';
 import AnnoAgonisticoManager from '@/component/view/AnnoAgonisticoManager.vue';
+import SquadreManager from '@/component/view/SquadreManager.vue';
 
 const routes = [
     { path: '/home', component: Home , children: [ {path: 'import', component: Import },
                                                    {path: 'coach', component: CoachManager },
                                                    {path: 'search', component: SearchForm },
                                                    {path: 'search/:id/modifica', component: ModifyAtleta},
-                                                   {path: 'anno', component: AnnoAgonisticoManager },]},
+                                                   {path: 'anno', component: AnnoAgonisticoManager },
+                                                   {path: 'squadre', component: SquadreManager }]},
     { path:'/login', component: Login },
     { path: '/', component: Login },
     
