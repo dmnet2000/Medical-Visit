@@ -57,8 +57,7 @@ public class SquadraResource {
             AnnoAgonisticoEntity anno = annoAgonisticoRepository.findById(entity.getIdAnnoAgonistico());
             squadra.setAnnoAgonistico(anno.getAnno());
             listaSquadreView.add(squadra);
-            //allenatoreRepositories.
-            //squadra.setNomeSquadra(entity.);
+
         }
         return listaSquadreView;
     }
