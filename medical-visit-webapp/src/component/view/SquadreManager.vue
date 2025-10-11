@@ -33,7 +33,17 @@
       <div v-if="msgSquadra" class="q-mt-md text-positive">{{ msgSquadra }}</div>
     </q-card-section>
   </q-card>
-  <div>{{ squadra }}</div>
+  <q-table
+  :rows="squadre"
+  :columns="columns"
+  row-key="id"
+  class="q-mt-lg"
+  flat
+  dense
+/>
+<div v-if="squadre.length === 0" class="q-mt-md text-grey">
+  Nessuna squadra presente.
+</div>
 </template>
 
 <script setup lang="ts">
@@ -42,6 +52,13 @@ import axios from 'axios'
 
 const allenatori = ref<any[]>([])
 const anni = ref<any[]>([])
+
+const squadre = ref<any[]>([])
+const columns = [
+  { name: 'nomeSquadra', label: 'Nome Squadra', field: 'nomeSquadra', align: 'left', sortable: true },
+  { name: 'nomeAllenatore', label: 'Allenatore', field: 'nomeAllenatore', align: 'left' },
+  { name: 'annoAgonistico', label: 'Anno Agonistico', field: 'annoAgonistico', align: 'left' }
+]
 
 const squadra = ref({
   nome: '',
@@ -85,13 +102,23 @@ async function onInsertSquadra() {
     msgSquadra.value = 'Squadra inserita con successo!'
     squadra.value.idAllenatore = null
     squadra.value.idAnnoAgonistico = null
+    await loadSquadre()
   } catch (error) {
     msgSquadra.value = 'Errore nell\'inserimento squadra'
     console.error(error)
   }
 }
-
+async function loadSquadre() {
+  try {
+    const res = await axios.get('http://localhost:8080/squadra/listaSquadre')
+    squadre.value = res.data
+  } catch (error) {
+    squadre.value = []
+    console.error('Errore caricamento squadre:', error)
+  }
+}
 // Carica dati all'avvio
 loadAllenatori()
 loadAnni()
+loadSquadre()
 </script>

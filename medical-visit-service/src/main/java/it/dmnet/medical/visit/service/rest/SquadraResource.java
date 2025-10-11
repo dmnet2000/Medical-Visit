@@ -1,8 +1,11 @@
 package it.dmnet.medical.visit.service.rest;
 
 import it.dmnet.medical.visit.model.dto.SquadraDTO;
+import it.dmnet.medical.visit.model.entity.AllenatoreEntity;
+import it.dmnet.medical.visit.model.entity.AnnoAgonisticoEntity;
 import it.dmnet.medical.visit.model.entity.SquadraEntity;
 import it.dmnet.medical.visit.model.repositories.AllenatoreRepository;
+import it.dmnet.medical.visit.model.repositories.AnnoAgonisticoRepository;
 import it.dmnet.medical.visit.model.repositories.SquadraRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -26,6 +29,9 @@ public class SquadraResource {
     @Inject
     AllenatoreRepository allenatoreRepositories;
 
+    @Inject
+    AnnoAgonisticoRepository annoAgonisticoRepository;
+
     Logger log = Logger.getLogger(SquadraResource.class.getName());
 
     @POST
@@ -40,15 +46,21 @@ public class SquadraResource {
     @GET
     @Path("listaSquadre")
     @Transactional
-    public Response getListaSquadre() {
+    public List<SquadraDTO> getListaSquadre() {
         List<SquadraEntity> listaSquadre = repository.listAll();
-        List<SquadraDTO> squadraDto = new ArrayList<>();
-        for( SquadraEntity entity : listaSquadre){
+        List<SquadraDTO> listaSquadreView = new ArrayList<>();
+        for (SquadraEntity entity : listaSquadre) {
             SquadraDTO squadra = new SquadraDTO();
+            AllenatoreEntity allenatore = allenatoreRepositories.findById(entity.idAllenatore);
+            squadra.setNomeAllenatore(allenatore.nome + " " + allenatore.cognome);
+            squadra.setNomeSquadra(entity.getNome());
+            AnnoAgonisticoEntity anno = annoAgonisticoRepository.findById(entity.getIdAnnoAgonistico());
+            squadra.setAnnoAgonistico(anno.getAnno());
+            listaSquadreView.add(squadra);
             //allenatoreRepositories.
             //squadra.setNomeSquadra(entity.);
         }
-        return Response.ok(squadraDto).build();
+        return listaSquadreView;
     }
 }
 
