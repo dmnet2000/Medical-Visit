@@ -51,6 +51,7 @@ public class SquadraResource {
         List<SquadraDTO> listaSquadreView = new ArrayList<>();
         for (SquadraEntity entity : listaSquadre) {
             SquadraDTO squadra = new SquadraDTO();
+            squadra.setId(entity.getId());
             AllenatoreEntity allenatore = allenatoreRepositories.findById(entity.idAllenatore);
             squadra.setNomeAllenatore(allenatore.nome + " " + allenatore.cognome);
             squadra.setNomeSquadra(entity.getNome());
@@ -60,6 +61,19 @@ public class SquadraResource {
 
         }
         return listaSquadreView;
+    }
+
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        boolean deleted = repository.deleteById(id);
+        if (deleted) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }
 

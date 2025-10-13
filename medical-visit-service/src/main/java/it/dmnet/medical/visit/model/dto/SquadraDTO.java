@@ -1,6 +1,7 @@
 package it.dmnet.medical.visit.model.dto;
 
 public class SquadraDTO {
+    long id;
     String nomeSquadra;
     String nomeAllenatore;
     String annoAgonistico;
@@ -27,6 +28,14 @@ public class SquadraDTO {
 
     public void setAnnoAgonistico(String annoAgonistico) {
         this.annoAgonistico = annoAgonistico;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
