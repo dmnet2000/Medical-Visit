@@ -3,7 +3,7 @@
 Funzioni:
  - upload manuale di Exel con elenco Atltete e scadenza visita medica [X]
  - visualizzazione  della lista ordinabile per campo degli atleti [x]
- - censimento Mail a cui inviare i report (in anagrafica Allenatore)
+ - censimento Mail a cui inviare i report (in anagrafica Allenatore)[x]
  - invio mail per ricordare delle visite mediche (cron giornaliero) oppure invio messaggio whatsup
  - cron per aggiornamento automatico dei dati.. come li recupero???
  - altre funzioni eventuali
@@ -33,8 +33,8 @@ TODO:
 
  - [X] aggiungere Ricera Allenatore
  - [X] aggiungere Modifica + cancellazione allenatore
- - [ ] Aggiungere Anno Agonistico
- - [ ] Aggiungere Squadra 
+ - [X] Aggiungere Anno Agonistico
+ - [x] Aggiungere Squadra 
  - [ ] Aggiungere Associazione Atlete Squadra
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale/massiva
@@ -66,6 +66,6 @@ TODO:
  - [ ] Gestire aggionramento dati a database
  - [X] Aggiornamento puntuale dei dati Atleta
  - [X] Aggingere aggionramento Allenatori
- - [ ] Aggiungere Squadre
+ - [X] Aggiungere Squadre
  - [ ] Aggingere associazione squadre
 

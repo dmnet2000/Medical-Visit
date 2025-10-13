@@ -1,50 +1,20 @@
 <template>
-  <q-card class="q-pa-lg q-mt-lg">
-    <q-card-section>
-      <div class="text-h6 text-primary">Inserisci Squadra</div>
-      <q-form
-        v-if="allenatori.length && anni.length"
-        @submit.prevent="onInsertSquadra"
-        class="q-mt-md"
-      >
-        <q-input
-          filled
-          v-model="squadra.nome"
-          label="Nome Squadra"
-          class="q-mb-sm"
-          :rules="[val => !!val || 'Campo obbligatorio']"
-        />
-        <q-select
-          filled
-          v-model="squadra.idAllenatore"
-          :options="allenatoriOptions"
-          label="Allenatore"
-          class="q-mb-sm"
-          emit-value
-          map-options
-          :rules="[val => !!val || 'Campo obbligatorio']"
-        />
-        <q-select
-          filled
-          v-model="squadra.idAnnoAgonistico"
-          :options="anniOptions"
-          label="Anno Agonistico"
-          class="q-mb-sm"
-          emit-value
-          map-options
-          :rules="[val => !!val || 'Campo obbligatorio']"
-        />
-        <div class="row justify-end">
-          <q-btn color="primary" type="submit" label="Salva Squadra" />
-        </div>
-      </q-form>
-      <div v-else class="text-grey q-mt-md">
-        Caricamento dati di riferimento...
-      </div>
-      <div v-if="msgSquadra" class="q-mt-md text-positive">{{ msgSquadra }}</div>
-    </q-card-section>
-  </q-card>
-
+  <div>
+    <q-btn
+      color="primary"
+      label="Nuova Squadra"
+      @click="showForm = !showForm"
+      class="q-mb-md"
+    />  
+  </div>
+  <SquadraForm
+    v-if="showForm"
+    :allenatori-options="allenatoriOptions"
+    :anni-options="anniOptions"
+    :squadra="squadra"
+    @submit="onInsertSquadra"
+    @cancel="showForm = false"
+  />
   <q-table
     :rows="squadre"
     :columns="columns"
@@ -54,6 +24,15 @@
     dense
   >
     <template #body-cell-azioni="props">
+      <q-btn
+        flat
+        dense
+        round
+        icon="person_add"
+        color="primary"
+        @click="onAssociaAtleti(props.row)"
+        class="q-mr-sm"
+      />
       <q-btn
         flat
         dense
@@ -70,12 +49,15 @@
 </template>
 
 <script setup lang="ts">
+import SquadraForm from '../form/SquadraForm.vue'
+
 import { ref, computed } from 'vue'
 import axios from 'axios'
 
 const allenatori = ref<any[]>([])
 const anni = ref<any[]>([])
 const squadre = ref<any[]>([])
+const showForm = ref(false)
 
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
@@ -137,26 +119,27 @@ async function loadSquadre() {
   }
 }
 
-async function onInsertSquadra() {
+async function onInsertSquadra(payload: any) {
   try {
-    if (!squadra.value.nome || !squadra.value.idAllenatore || !squadra.value.idAnnoAgonistico) {
+    if (!payload.nome || !payload.idAllenatore || !payload.idAnnoAgonistico) {
       msgSquadra.value = 'Compila tutti i campi'
       return
     }
-    const payload = {
-      nome: squadra.value.nome,
-      idAllenatore: Number(squadra.value.idAllenatore),
-      idAnnoAgonistico: Number(squadra.value.idAnnoAgonistico)
-    }
-    await axios.post('http://localhost:8080/squadra/insert', payload)
+    await axios.post('http://localhost:8080/squadra/insert', {
+      nome: payload.nome,
+      idAllenatore: Number(payload.idAllenatore),
+      idAnnoAgonistico: Number(payload.idAnnoAgonistico)
+    })
     msgSquadra.value = 'Squadra inserita con successo!'
     squadra.value = { nome: '', idAllenatore: null, idAnnoAgonistico: null }
+    showForm.value = false
     await loadSquadre()
   } catch (error) {
     msgSquadra.value = 'Errore nell\'inserimento squadra'
     console.error(error)
   }
 }
+
 
 async function onDeleteSquadra(row: any) {
   if (!row.id) {
@@ -172,6 +155,15 @@ async function onDeleteSquadra(row: any) {
       alert(error.response?.data || 'Errore nella cancellazione')
     }
   }
+}
+
+function onAssociaAtleti(row: any) {
+  // Esempio: naviga a una pagina dedicata
+  // Se usi Vue Router:
+  // router.push({ name: 'AssociaAtleti', params: { squadraId: row.id } })
+
+  // Oppure apri una dialog/modal:
+  alert(`Associa atleti alla squadra: ${row.nomeSquadra || row.nome} (ID: ${row.id})`)
 }
 
 // Init
