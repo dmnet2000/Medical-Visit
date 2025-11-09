@@ -50,14 +50,16 @@
 
 <script setup lang="ts">
 import SquadraForm from '../form/SquadraForm.vue'
-
+import * as squadraService from '@/services/squadraService'
 import { ref, computed } from 'vue'
-import axios from 'axios'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const allenatori = ref<any[]>([])
 const anni = ref<any[]>([])
 const squadre = ref<any[]>([])
 const showForm = ref(false)
+const loading = ref(false)
 
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
@@ -91,8 +93,7 @@ const anniOptions = computed(() =>
 
 async function loadAllenatori() {
   try {
-    const res = await axios.get('http://localhost:8080/allenatori/list')
-    allenatori.value = res.data
+    allenatori.value = await squadraService.fetchAllenatori()
   } catch (error) {
     allenatori.value = []
     console.error('Errore caricamento allenatori:', error)
@@ -101,8 +102,7 @@ async function loadAllenatori() {
 
 async function loadAnni() {
   try {
-    const res = await axios.get('http://localhost:8080/anno/list')
-    anni.value = res.data
+    anni.value = await squadraService.fetchAnni()
   } catch (error) {
     anni.value = []
     console.error('Errore caricamento anni agonistici:', error)
@@ -111,11 +111,13 @@ async function loadAnni() {
 
 async function loadSquadre() {
   try {
-    const res = await axios.get('http://localhost:8080/squadra/listaSquadre')
-    squadre.value = res.data // DTO già con: id, nomeSquadra, nomeAllenatore, annoAgonistico
-  } catch (error) {
+    loading.value = true
+   squadre.value = await squadraService.fetchSquadre()
+  } catch (e) {
     squadre.value = []
-    console.error('Errore caricamento squadre:', error)
+    console.error('Errore caricamento squadre:', e)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -125,7 +127,7 @@ async function onInsertSquadra(payload: any) {
       msgSquadra.value = 'Compila tutti i campi'
       return
     }
-    await axios.post('http://localhost:8080/squadra/insert', {
+    await squadraService.createSquadra({
       nome: payload.nome,
       idAllenatore: Number(payload.idAllenatore),
       idAnnoAgonistico: Number(payload.idAnnoAgonistico)
@@ -148,7 +150,7 @@ async function onDeleteSquadra(row: any) {
   }
   if (confirm(`Cancellare la squadra "${row.nomeSquadra || row.nome}"?`)) {
     try {
-      await axios.delete(`http://localhost:8080/squadra/delete/${row.id}`)
+      await squadraService.deleteSquadra(row.id)
       await loadSquadre()
     } catch (error:any) {
       console.error('Errore cancellazione squadra:', error)
@@ -158,12 +160,8 @@ async function onDeleteSquadra(row: any) {
 }
 
 function onAssociaAtleti(row: any) {
-  // Esempio: naviga a una pagina dedicata
-  // Se usi Vue Router:
-  // router.push({ name: 'AssociaAtleti', params: { squadraId: row.id } })
-
-  // Oppure apri una dialog/modal:
   alert(`Associa atleti alla squadra: ${row.nomeSquadra || row.nome} (ID: ${row.id})`)
+  router.push({ name: 'AssociaAtleti', params: { id: String(row.id) } })
 }
 
 // Init

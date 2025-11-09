@@ -8,6 +8,7 @@ import ModifyAtleta from '@/component/crud/ModifyAtleta.vue';
 import CoachManager from '@/component/view/CoachManager.vue';
 import AnnoAgonisticoManager from '@/component/view/AnnoAgonisticoManager.vue';
 import SquadreManager from '@/component/view/SquadreManager.vue';
+import SquadraAtleti from '@/component/view/SquadraAtleti.vue';
 
 const routes = [
     { path: '/home', component: Home , children: [ {path: 'import', component: Import },
@@ -15,7 +16,8 @@ const routes = [
                                                    {path: 'search', component: SearchForm },
                                                    {path: 'search/:id/modifica', component: ModifyAtleta},
                                                    {path: 'anno', component: AnnoAgonisticoManager },
-                                                   {path: 'squadre', component: SquadreManager }]},
+                                                   {path: 'squadre', component: SquadreManager },
+                                                   {path: 'squadre/:id/atleti', name:"AssociaAtleti", component: SquadraAtleti, props: true}]},
     { path:'/login', component: Login },
     { path: '/', component: Login },
     
