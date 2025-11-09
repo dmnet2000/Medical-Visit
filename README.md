@@ -57,9 +57,10 @@ VueJs
 - [x] Aggiungere chiamata a servizio per modificare certificato medico
 - [ ] Creazione stagione soprtia
 - [ ] Aggiungere Gestione Squadra 
-  - [ ] Creazione nuova squadra/gruppo allenamento
-  - [ ] Associazione squadra/allenatore/Stagione Agonistica
-  - 
+  - [x] Creazione nuova squadra/gruppo allenamento
+  - [x] Associazione squadra/allenatore/Stagione Agonistica
+  - [ ] Aggiunta associazione atleta / squadra
+  - [ ] Refactor componenti
 TODO:
  
  - [ ] Auth (aggiunta a database), form di registrazione???
@@ -68,4 +69,4 @@ TODO:
  - [X] Aggingere aggionramento Allenatori
  - [X] Aggiungere Squadre
  - [ ] Aggingere associazione squadre
-
+ - [ ] Aggiunta entità Squadra
