@@ -35,7 +35,7 @@ TODO:
  - [X] aggiungere Modifica + cancellazione allenatore
  - [X] Aggiungere Anno Agonistico
  - [x] Aggiungere Squadra 
- - [ ] Aggiungere Associazione Atlete Squadra
+ - [X] Aggiungere Associazione Atlete Squadra
  - [ ] parametrizzare le env per il database  
  - [ ] aggiungere servizio per update manuale/massiva
  - [ ] Aggiungere crontab per aggiornamento automatico
@@ -55,11 +55,12 @@ VueJs
 - [X] Modifica data certificato
 - [X] Ricerca atleti da database
 - [x] Aggiungere chiamata a servizio per modificare certificato medico
-- [ ] Creazione stagione soprtia
+- [x] Creazione stagione soprtia
 - [ ] Aggiungere Gestione Squadra 
   - [x] Creazione nuova squadra/gruppo allenamento
   - [x] Associazione squadra/allenatore/Stagione Agonistica
-  - [ ] Aggiunta associazione atleta / squadra
+  - [x] Aggiunta associazione atleta / squadra
+  - [ ] Aggiungere visualizzazione dettaglio atleti
   - [ ] Refactor componenti
 TODO:
  
