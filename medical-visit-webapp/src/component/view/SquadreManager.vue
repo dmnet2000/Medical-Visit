@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="q-pt-md">    
     <q-btn
       color="primary"
       label="Nuova Squadra"
       @click="showForm = !showForm"
-      class="q-mb-md"
+      class="q-mb-md q-mb-md"
     />  
   </div>
   <SquadraForm
