@@ -25,15 +25,16 @@ export async function deleteSquadra(id: number) {
 }
 
 export async function fetchSquadraById(id:number) {
-  const res = await api.get(`squadra/${id}`)
+  const res = await api.get(`squadra/getDetail/${id}`)
   return res.data
 }
 
 export async function associaAtleti(squadraId:number, atletiIds:number[]) {
   // Endpoint backend esempio: POST /squadra/{id}/associa-atleti  body: [idAtleta,...]
-  const res = await api.post(`squadra/${squadraId}/atleti`, atletiIds)
+  const res = await api.post(`squadra/${squadraId}/associa-atleti`, atletiIds)
   return res.data
 }
+
 export default {
   fetchAllenatori,
   fetchAnni,

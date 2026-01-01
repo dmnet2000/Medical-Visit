@@ -2,6 +2,9 @@ package it.dmnet.medical.visit.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "squadra")
 public class SquadraEntity {
@@ -19,6 +22,10 @@ public class SquadraEntity {
     @Column(nullable = false, name="nome")
     public String nome;
 
+    // Relazione OneToMany con la tabella associativa
+    @OneToMany(mappedBy = "squadra", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<AtletaSquadraEntity> atletiSquadra = new ArrayList<>();
+
     @Override
     public String toString() {
         return "SquadraEntity{" +
@@ -27,6 +34,17 @@ public class SquadraEntity {
                 ", idAnnoAgonistico=" + idAnnoAgonistico +
                 ", nome=" + nome +
                 '}';
+    }
+
+    // Metodi helper per gestire la relazione bidirezionale
+    public void addAtleta(AtletaSquadraEntity atletaSquadra) {
+        atletiSquadra.add(atletaSquadra);
+        atletaSquadra.setSquadra(this);
+    }
+
+    public void removeAtleta(AtletaSquadraEntity atletaSquadra) {
+        atletiSquadra.remove(atletaSquadra);
+        atletaSquadra.setSquadra(null);
     }
 
     public Long getId() {
@@ -60,4 +78,14 @@ public class SquadraEntity {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public List<AtletaSquadraEntity> getAtletiSquadra() {
+        return atletiSquadra;
+    }
+
+    public void setAtletiSquadra(List<AtletaSquadraEntity> atletiSquadra) {
+        this.atletiSquadra = atletiSquadra;
+    }
+
+
 }

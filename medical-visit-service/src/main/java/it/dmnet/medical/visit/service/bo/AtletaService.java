@@ -78,4 +78,8 @@ public class AtletaService {
     public int updateVisit(String codFiscale, LocalDate nuovaDataScadenza) {
         return atletaRepository.updateDataScadenzaVisitaMedica(codFiscale, nuovaDataScadenza);
     }
+
+    public List<AtletaEntity> getListaAtleti() {
+        return atletaRepository.listAll();
+    }
 }

@@ -37,6 +37,14 @@
         flat
         dense
         round
+        icon="list"
+        color="negative"
+        @click="getDetail(props.row)"
+      />
+      <q-btn
+        flat
+        dense
+        round
         icon="delete"
         color="negative"
         @click="onDeleteSquadra(props.row)"
@@ -160,10 +168,14 @@ async function onDeleteSquadra(row: any) {
 }
 
 function onAssociaAtleti(row: any) {
-  alert(`Associa atleti alla squadra: ${row.nomeSquadra || row.nome} (ID: ${row.id})`)
+  //alert(`Associa atleti alla squadra: ${row.nomeSquadra || row.nome} (ID: ${row.id})`)
   router.push({ name: 'AssociaAtleti', params: { id: String(row.id) } })
 }
 
+function getDetail(row: any) {
+  alert(`Associa atleti alla squadra: ${row.nomeSquadra || row.nome} (ID: ${row.id})`)
+  //router.push({ name: 'AssociaAtleti', params: { id: String(row.id) } })
+}
 // Init
 loadAllenatori()
 loadAnni()

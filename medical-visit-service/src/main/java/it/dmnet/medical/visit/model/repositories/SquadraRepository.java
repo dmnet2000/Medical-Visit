@@ -7,4 +7,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class SquadraRepository implements PanacheRepository<SquadraEntity> {
+
+    public SquadraEntity findByIdWithAtleti(Long id) {
+        return find("SELECT s FROM SquadraEntity s LEFT JOIN FETCH s.atletiSquadra WHERE s.id = ?1", id)
+                .firstResult();
+    }
+
 }

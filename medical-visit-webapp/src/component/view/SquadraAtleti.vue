@@ -18,9 +18,11 @@
       row-key="id"
       flat
       dense
+      :rows-per-page-options="[ 50, 100]"
+      :pagination="{ rowsPerPage: 50 }"
     >
       <template #body-cell-selezione="props">
-        <q-checkbox v-model="selectedMap[props.row.id]" @update:model-value="toggleSelection(props.row.id)" />
+         <q-checkbox v-model="selectedMap[props.row.id]" />
       </template>
     </q-table>
 
@@ -50,7 +52,7 @@ const selectedMap = reactive<Record<number, boolean>>({})
 
 const columns = [
   { name: 'selezione', label: '', field: 'selezione', align: 'center' },
-  { name: 'nome', label: 'Nome', field: (r:any) => `${r.nome} ${r.cognome}`, align: 'left' },
+  { name: 'nome', label: 'Nome', field: (r:any) => `${r.cognome} ${r.nome}`, align: 'left' },
   { name: 'codice', label: 'Codice', field: 'codiceFiscale', align: 'left' }
 ]
 
@@ -65,15 +67,21 @@ const filteredAtleti = computed(() => {
 
 const hasSelection = computed(() => Object.values(selectedMap).some(v => v))
 
-function toggleSelection(id:number) {
-  selectedMap[id] = !selectedMap[id]
-}
+//function toggleSelection(id:number) {
+//  selectedMap[id] = !selectedMap[id]
+//}
 
 async function loadData() {
-  loading.value = true
+ loading.value = true
   try {
     squadra.value = await squadraService.fetchSquadraById(id)
     atleti.value = await atletaService.fetchAtleti()
+    
+    // Inizializza tutte le checkbox a false
+    atleti.value.forEach(a => {
+      selectedMap[a.id] = false
+    })
+    
     // se vuoi pre-selezionare atleti già associati, mappa qui:
     // esempio: squadra.value.atletiIds?.forEach((aid:number) => selectedMap[aid]=true)
   } catch (e) {

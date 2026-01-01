@@ -1,18 +1,13 @@
 package it.dmnet.medical.visit.service.rest;
 
 import it.dmnet.medical.visit.model.dto.SquadraDTO;
-import it.dmnet.medical.visit.model.entity.AllenatoreEntity;
-import it.dmnet.medical.visit.model.entity.AnnoAgonisticoEntity;
-import it.dmnet.medical.visit.model.entity.SquadraEntity;
-import it.dmnet.medical.visit.model.repositories.AllenatoreRepository;
-import it.dmnet.medical.visit.model.repositories.AnnoAgonisticoRepository;
-import it.dmnet.medical.visit.model.repositories.SquadraRepository;
+import it.dmnet.medical.visit.model.entity.*;
+import it.dmnet.medical.visit.model.repositories.*;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.apache.commons.logging.Log;
 import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
@@ -26,11 +21,18 @@ public class SquadraResource {
     @Inject
     SquadraRepository repository;
 
+
+    @Inject
+    AtletaRepository atletaRepository;
+
     @Inject
     AllenatoreRepository allenatoreRepositories;
 
     @Inject
     AnnoAgonisticoRepository annoAgonisticoRepository;
+
+    @Inject
+    AtletaSquadraRepositories atletaSquadraRepositories;
 
     Logger log = Logger.getLogger(SquadraResource.class.getName());
 
@@ -63,7 +65,6 @@ public class SquadraResource {
         return listaSquadreView;
     }
 
-
     @DELETE
     @Path("/delete/{id}")
     @Transactional
@@ -75,6 +76,58 @@ public class SquadraResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @GET
+    @Path("getDetail/{id}")
+    @Transactional
+    public SquadraEntity getSquadraDetail(@PathParam("id") Long id) {
+        return repository.findByIdWithAtleti(id);
+    }
+
+    @POST
+    @Path("/{id}/associa-atleti")
+    @Transactional
+    public Response insertAtletiSquadra(@PathParam("id") Long squadraId, List<Long> atletaIds) {
+        SquadraEntity squadra = repository.findById(squadraId);
+        if (squadra == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Squadra non trovata")
+                    .build();
+        }
+        for (Long atletaId : atletaIds) {
+            // Recupera l'atleta dal database
+            AtletaEntity atleta = atletaRepository.findById(atletaId);
+
+            if (atleta == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Atleta con ID " + atletaId + " non trovato")
+                        .build();
+            }
+
+            // Verifica se l'associazione esiste già (opzionale)
+            boolean esisteGia = squadra.getAtletiSquadra().stream()
+                    .anyMatch(as -> as.getAtleta().getId().equals(atletaId));
+
+            if (!esisteGia) {
+                // Crea la nuova associazione
+                AtletaSquadraEntity atletaSquadra = new AtletaSquadraEntity(atleta, squadra);
+
+                // Aggiungi usando il metodo helper (se l'hai implementato)
+                squadra.addAtleta(atletaSquadra);
+
+                // OPPURE aggiungi direttamente alla lista
+                // squadra.getAtletiSquadra().add(atletaSquadra);
+
+                // Persisti l'associazione
+                atletaSquadraRepositories.persist(atletaSquadra);
+            }
+        }
+
+
+        return Response.ok().build();
+
+    }
+
 }
 
 

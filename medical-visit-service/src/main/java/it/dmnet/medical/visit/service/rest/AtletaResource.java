@@ -19,6 +19,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
 
 @Path("/atleti")
@@ -35,7 +36,6 @@ public class AtletaResource {
 
     @Inject
     ReactiveMailer mailer;
-
 
 
     Logger log = Logger.getLogger(AtletaResource.class.getName());
@@ -92,9 +92,7 @@ public class AtletaResource {
         }
     }
 
-
-
-
+    //TODO: servizio di prova.. Modificare
     @GET
     @Path("/mail")
     @Blocking
@@ -111,5 +109,18 @@ public class AtletaResource {
         );
     }
 
+
+    @GET
+    @Path("/listaAtleti")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<AtletaEntity> getListaAtleti() {
+        Comparator<AtletaEntity> comparator = new Comparator<AtletaEntity>() {
+            @Override
+            public int compare(AtletaEntity o1, AtletaEntity o2) {
+                return o1.getCognome().compareTo(o2.getCognome());
+            }
+        };
+        return atletaService.getListaAtleti().stream().sorted(comparator).toList();
+    }
 
 }

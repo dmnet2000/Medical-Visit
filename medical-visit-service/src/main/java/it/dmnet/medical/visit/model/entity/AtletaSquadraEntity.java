@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
         name = "atleta_squadra",
         uniqueConstraints = @UniqueConstraint(columnNames = {"atleta_id", "squadra_id"})
 )
-public class AtletaSquadra {
+public class AtletaSquadraEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,9 +27,9 @@ public class AtletaSquadra {
     private OffsetDateTime createdAt;
 
     // Costruttori
-    public AtletaSquadra() {}
+    public AtletaSquadraEntity() {}
 
-    public AtletaSquadra(AtletaEntity atleta, SquadraEntity squadra) {
+    public AtletaSquadraEntity(AtletaEntity atleta, SquadraEntity squadra) {
         this.atleta = atleta;
         this.squadra = squadra;
     }
