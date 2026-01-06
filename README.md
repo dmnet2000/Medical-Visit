@@ -71,3 +71,72 @@ TODO:
  - [X] Aggiungere Squadre
  - [ ] Aggingere associazione squadre
  - [ ] Aggiunta entità Squadra
+
+
+
+# Giro Auth: Servizi BE
+- ESEMPI DI CHIAMATE API
+   Registrazione primo utente
+   bash
+   curl -X POST http://localhost:8080/api/auth/register \
+   -H "Content-Type: application/json" \
+   -d '{
+   "idAllenatore":  1,
+   "username":  "mario. rossi",
+   "password":  "Password123!"
+   }'
+   Risposta successo:
+
+JSON
+{
+"message": "Registrazione completata con successo",
+"userId": 1,
+"username": "mario.rossi"
+}
+Risposta errore:
+
+JSON
+{
+"error": "Username già in uso:  mario.rossi"
+}
+Login
+bash
+curl -X POST http://localhost:8080/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+"username": "mario.rossi",
+"password": "Password123!"
+}'
+Cambio password
+bash
+curl -X PUT http://localhost:8080/api/auth/change-password \
+-H "Content-Type: application/json" \
+-d '{
+"authId": 1,
+"oldPassword": "Password123!",
+"newPassword": "NuovaPassword456!"
+}'
+
+- 7. COSA SUCCEDE NEL DATABASE
+SQL
+-- REGISTRAZIONE:  viene inserito un record con password hashata
+INSERT INTO public.authentication (id_allenatore, username, password_hash, attivo, data_creazione)
+VALUES (1, 'mario.rossi', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', true, NOW());
+
+-- LOGIN: viene letto il record e verificato l'hash
+SELECT * FROM public. authentication WHERE username = 'mario. rossi' AND attivo = true;
+-- L'applicazione confronta la password inserita con l'hash usando BCrypt
+
+-- CAMBIO PASSWORD: viene aggiornato solo l'hash
+UPDATE public.authentication
+SET password_hash = '$2a$10$XYZnewHash.. .'
+WHERE id = 1;
+
+✅ RIASSUNTO - Best Practices
+Cosa	✅ Fare	❌ Non Fare
+Salvare password	Hash con BCrypt	Password in chiaro
+Verifica login	BcryptUtil.matches()	Confronto stringhe
+Lunghezza minima	Almeno 8 caratteri	Password corte
+Complessità	Maiuscole + minuscole + numeri	Solo lettere
+Cambio password	Richiedere password vecchia	Cambio senza verifica
+Tentativi falliti	Bloccare dopo N tentativi	Tentativi illimitati
