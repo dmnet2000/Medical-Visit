@@ -1,11 +1,13 @@
 package it.dmnet.medical.visit.service.rest;
 
+
+import it.dmnet.medical.visit.model.dto.*;
 import it.dmnet.medical.visit.service.bo.LoginService;
 import it.dmnet.medical.visit.service.bo.PasswordChangeService;
 import it.dmnet.medical.visit.service.bo.RegistrationService;
 import jakarta.inject.Inject;
-import jakarta. ws.rs.*;
-import jakarta. ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/auth")
@@ -32,21 +34,21 @@ public class AuthResource {
         try {
             var auth = registrationService.registerNewUser(
                     request.idAllenatore,
-                    request. username,
+                    request.username,
                     request.password
             );
 
-            return Response.status(Response.Status. CREATED)
+            return Response.status(Response.Status.CREATED)
                     .entity(new SuccessResponse(
                             "Registrazione completata con successo",
-                            auth. id,
+                            auth.id,
                             auth.username
                     ))
                     .build();
 
         } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status. BAD_REQUEST)
-                    .entity(new ErrorResponse(e. getMessage()))
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorResponse(e.getMessage()))
                     .build();
         }
     }
@@ -58,7 +60,7 @@ public class AuthResource {
     @POST
     @Path("/login")
     public Response login(LoginRequest request) {
-        LoginService.LoginResult result = loginService. login(
+        LoginService.LoginResult result = loginService.login(
                 request.username,
                 request.password
         );
@@ -70,7 +72,7 @@ public class AuthResource {
                     result.authentication.username
             )).build();
         } else {
-            return Response.status(Response.Status. UNAUTHORIZED)
+            return Response.status(Response.Status.UNAUTHORIZED)
                     .entity(new ErrorResponse(result.message))
                     .build();
         }
@@ -90,59 +92,13 @@ public class AuthResource {
                     request.newPassword
             );
 
-            return Response. ok(new MessageResponse("Password cambiata con successo")).build();
+            return Response.ok(new MessageResponse("Password cambiata con successo")).build();
 
         } catch (IllegalArgumentException e) {
-            return Response. status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorResponse(e.getMessage()))
                     .build();
         }
     }
 
-    // ==================== DTO CLASSES ====================
-
-    public static class RegisterRequest {
-        public Long idAllenatore;
-        public String username;
-        public String password;
-    }
-
-    public static class LoginRequest {
-        public String username;
-        public String password;
-    }
-
-    public static class ChangePasswordRequest {
-        public Long authId;
-        public String oldPassword;
-        public String newPassword;
-    }
-
-    public static class SuccessResponse {
-        public String message;
-        public Long userId;
-        public String username;
-
-        public SuccessResponse(String message, Long userId, String username) {
-            this.message = message;
-            this.userId = userId;
-            this.username = username;
-        }
-    }
-
-    public static class MessageResponse {
-        public String message;
-
-        public MessageResponse(String message) {
-            this.message = message;
-        }
-    }
-
-    public static class ErrorResponse {
-        public String error;
-
-        public ErrorResponse(String error) {
-            this.error = error;
-        }
-    }
 }

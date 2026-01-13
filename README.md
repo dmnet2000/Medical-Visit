@@ -74,41 +74,50 @@ TODO:
 
 
 
-# Giro Auth: Servizi BE
+## Giro Auth: Servizi BE
 - ESEMPI DI CHIAMATE API
    Registrazione primo utente
    bash
-   curl -X POST http://localhost:8080/api/auth/register \
+`
+curl -X POST http://localhost:8080/api/auth/register \
    -H "Content-Type: application/json" \
    -d '{
    "idAllenatore":  1,
    "username":  "mario. rossi",
    "password":  "Password123!"
    }'
-   Risposta successo:
-
-JSON
-{
-"message": "Registrazione completata con successo",
-"userId": 1,
-"username": "mario.rossi"
-}
+`
+Risposta successo:
+  - JSON:
+  `
+  {
+  "message": "Registrazione completata con successo",
+  "userId": 1,
+  "username": "mario.rossi"
+  }
+  `
 Risposta errore:
+- JSON:
 
-JSON
+`
 {
 "error": "Username già in uso:  mario.rossi"
 }
+`
+
 Login
+
 bash
-curl -X POST http://localhost:8080/api/auth/login \
+`curl -X POST http://localhost:8080/api/auth/login \
 -H "Content-Type: application/json" \
 -d '{
 "username": "mario.rossi",
 "password": "Password123!"
 }'
+`
 Cambio password
 bash
+`
 curl -X PUT http://localhost:8080/api/auth/change-password \
 -H "Content-Type: application/json" \
 -d '{
@@ -116,7 +125,7 @@ curl -X PUT http://localhost:8080/api/auth/change-password \
 "oldPassword": "Password123!",
 "newPassword": "NuovaPassword456!"
 }'
-
+`
 - 7. COSA SUCCEDE NEL DATABASE
 SQL
 -- REGISTRAZIONE:  viene inserito un record con password hashata
