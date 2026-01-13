@@ -2,10 +2,10 @@ package it.dmnet.medical.visit.service.bo;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
 import it.dmnet.medical.visit.model.entity.Authentication;
-
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction. Transactional;
-import java. time.LocalDateTime;
+import jakarta.transaction.Transactional;
+
+import java.time.LocalDateTime;
 
 @ApplicationScoped
 public class LoginService {

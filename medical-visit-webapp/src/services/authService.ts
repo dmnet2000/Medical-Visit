@@ -1,9 +1,40 @@
 // src/services/authService.ts
-import axios from 'axios';
+import api from '@/services/url';
 
-export async function login(username: string, password: string): Promise<string> {
-  // Replace with your real API endpoint
-  const response = await axios.post('/api/auth/login', { username, password });
-  // Assuming the JWT is returned as response.data.token
-  return response.data.token;
+export interface RegisterRequest {
+  username: string;
+  password: string;
+  idAllenatore?: number;
 }
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface ChangePasswordRequest {
+  authId: number;
+  oldPassword: string;
+  newPassword: string;
+}
+
+export async function register(request: RegisterRequest) {
+  const res = await api.post('api/auth/register', request);
+  return res.data;
+}
+
+export async function login(request: LoginRequest) {
+  const res = await api.post('api/auth/login', request);
+  return res.data;
+}
+
+export async function changePassword(request: ChangePasswordRequest) {
+  const res = await api.put('api/auth/change-password', request);
+  return res.data;
+}
+
+export default {
+  register,
+  login,
+  changePassword,
+};

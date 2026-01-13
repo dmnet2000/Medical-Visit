@@ -9,6 +9,7 @@ import CoachManager from '@/component/view/CoachManager.vue';
 import AnnoAgonisticoManager from '@/component/view/AnnoAgonisticoManager.vue';
 import SquadreManager from '@/component/view/SquadreManager.vue';
 import SquadraAtleti from '@/component/view/SquadraAtleti.vue';
+import Register from '@/component/view/Register.vue';
 
 const routes = [
     { path: '/home', component: Home , children: [ {path: 'import', component: Import },
@@ -19,6 +20,7 @@ const routes = [
                                                    {path: 'squadre', component: SquadreManager },
                                                    {path: 'squadre/:id/atleti', name:"AssociaAtleti", component: SquadraAtleti, props: true}]},
     { path:'/login', component: Login },
+    { path:'/register', component: Register },
     { path: '/', component: Login },
     
     //{ path: '/search', component: Search },

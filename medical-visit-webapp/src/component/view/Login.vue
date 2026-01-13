@@ -17,6 +17,10 @@
       </label>
       <button type="submit">Accedi</button>
       <div v-if="error" class="error">{{ error }}</div>
+      <div class="register-link">
+        Non hai un account? 
+        <router-link to="/register">Registrati qui</router-link>
+      </div>
     </form>
   </div>
 
@@ -143,7 +147,25 @@ img {
   display: block;
   justify-content: center;
   align-items: center;
+}
 
+.register-link {
+  text-align: center;
+  margin-top: 16px;
+  color: #0a243b;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.register-link a:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
 </style>
 
