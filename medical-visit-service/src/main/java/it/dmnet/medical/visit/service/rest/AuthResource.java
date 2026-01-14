@@ -1,6 +1,7 @@
 package it.dmnet.medical.visit.service.rest;
 
 import it.dmnet.medical.visit.model.dto.*;
+import it.dmnet.medical.visit.model.dto.auth.RegisterRequest;
 import it.dmnet.medical.visit.service.bo.LoginService;
 import it.dmnet.medical.visit.service.bo.PasswordChangeService;
 import it.dmnet.medical.visit.service.bo.RegistrationService;
