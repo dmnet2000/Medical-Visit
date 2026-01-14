@@ -1,21 +1,19 @@
--- Versione semplificata ma sicura
-CREATE TABLE IF NOT EXISTS public.authentication
-(
+-- Tabella authentication (GENERICA per tutti i tipi utente)
+CREATE TABLE IF NOT EXISTS public.authentication (
     id BIGSERIAL PRIMARY KEY,
-    id_allenatore BIGINT NOT NULL UNIQUE,
+    id_user BIGINT,  -- Può riferirsi a allenatore, atleta, dirigente
     username VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    cod_utente VARCHAR(50) NOT NULL,  -- Enum: ATLETA, ALLENATORE, DIRIGENTE, ADMIN
+    data_creazione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_ultimo_accesso TIMESTAMP,
     attivo BOOLEAN DEFAULT TRUE,
 
-    CONSTRAINT fk_allenatore
-        FOREIGN KEY (id_allenatore)
-        REFERENCES public.allenatore(id)
-        ON DELETE CASCADE,
-
     -- Constraint per validare username
-    CONSTRAINT chk_username_length CHECK (char_length(username) >= 3)
+    CONSTRAINT chk_username_length CHECK (char_length(username) >= 3),
+
+    -- Constraint per validare cod_utente
+    CONSTRAINT chk_cod_utente CHECK (cod_utente IN ('ATLETA', 'ALLENATORE', 'DIRIGENTE', 'ADMIN'))
 );
 
 -- Indici
