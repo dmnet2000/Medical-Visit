@@ -9,14 +9,17 @@
     <form @submit.prevent="handleLogin">
       <label>
         Username:
-        <input v-model="username" type="text" required />
+        <input v-model="username" type="text" required :disabled="loading" />
       </label>
       <label>
         Password:
-        <input v-model="password" type="password" required />
+        <input v-model="password" type="password" required :disabled="loading" />
       </label>
-      <button type="submit">Accedi</button>
+      <button type="submit" :disabled="loading">
+        {{ loading ? 'Accesso in corso...' : 'Accedi' }}
+      </button>
       <div v-if="error" class="error">{{ error }}</div>
+      <div v-if="success" class="success">{{ success }}</div>
       <div class="register-link">
         Non hai un account? 
         <router-link to="/register">Registrati qui</router-link>
@@ -28,31 +31,53 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
-import { useAuthStore } from '../../storage/auth';
-import router from '@/router';
-import { login as loginService } from '../../services/authService';
+import { ref } from 'vue'
+import { useAuthStore } from '../../storage/auth'
+import { useRouter } from '@/router'
+import { login as loginService } from '../../services/authService'
+import type { AuthUser } from '@/storage/auth'
 
-const authStore = useAuthStore();
+const authStore = useAuthStore()
+const router = useRouter()
 
-const username = ref('');
-const password = ref('');
-const error = ref('');
-
-const emit = defineEmits(['login-success']);
+const username = ref('')
+const password = ref('')
+const error = ref('')
+const success = ref('')
+const loading = ref(false)
 
 async function handleLogin() {
-  //try {
-    //const jwt = await loginService(username.value, password.value);
-    if (username.value === 'admin' && password.value === 'password'){
+  error.value = ''
+  success.value = ''
+  loading.value = true
 
-      authStore.login(username.value, 'JWTPLACEHOLDER');
-      error.value = '';
-      router.push('/home');
+  try {
+    const response = await loginService({
+      username: username.value,
+      password: password.value,
+    })
+
+    // Converti AuthResponse in AuthUser
+    const authUser: AuthUser = {
+      username: response.username,
+      token: response.token,
+      tipoUtente: response.tipoUtente,
+      roles: response.roles,
+      userId: response.userId,
     }
-  //} catch (e) {
-  //  error.value = 'Nome utente o password non validi';
-  //}
+
+    authStore.login(authUser)
+    success.value = 'Login effettuato con successo!'
+    
+    // Redirect dopo un breve delay
+    setTimeout(() => {
+      router.push('/home')
+    }, 500)
+  } catch (e: any) {
+    error.value = e.response?.data?.message || 'Nome utente o password non validi'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -100,7 +125,13 @@ input {
   background: #f7faff;
 }
 
-input:focus {
+input:disabled {
+  background: #e8eef5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input:focus:not(:disabled) {
   border-color: #007bff;
   box-shadow: 0 0 0 2px #cce4ff;
 }
@@ -120,8 +151,14 @@ button {
   box-shadow: 0 2px 8px rgba(10,36,59,0.08);
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: linear-gradient(90deg, #0056b3 60%, #0a243b 100%);
+}
+
+button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .error {
@@ -133,6 +170,17 @@ button:hover {
   border-radius: 4px;
   padding: 6px 0;
 }
+
+.success {
+  color: #2e7d32;
+  margin-top: 12px;
+  text-align: center;
+  font-weight: 500;
+  background: #e8f5e9;
+  border-radius: 4px;
+  padding: 6px 0;
+}
+
 .logo-container{
   margin-top: 30px;
   display: flex;
@@ -168,5 +216,4 @@ img {
   text-decoration: underline;
 }
 </style>
-
 

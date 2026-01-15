@@ -27,9 +27,3 @@ async function bootstrap() {
 
 bootstrap()
 
-
-createApp(App)
-    .use(quasar)
-    .use(router)
-    .use(createPinia())
-    .mount('#app')

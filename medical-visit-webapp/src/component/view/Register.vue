@@ -9,14 +9,34 @@
         <form @submit.prevent="handleRegister">
           <label>
             Username:
-            <input v-model="username" type="text" required />
+            <input v-model="username" type="text" required :disabled="loading" />
           </label>
           <label>
             Password:
-            <input v-model="password" type="password" required />
+            <input v-model="password" type="password" required :disabled="loading" />
           </label>
-          <button type="submit">Registrati</button>
+          <label>
+            Conferma Password:
+            <input v-model="confirmPassword" type="password" required :disabled="loading" />
+          </label>
+          <label>
+            Tipo Utente:
+            <select v-model="tipoUtente" required :disabled="loading">
+              <option value="">Seleziona...</option>
+              <option value="ATLETA">Atleta</option>
+              <option value="ALLENATORE">Allenatore</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </label>
+          <label>
+            ID Utente (opzionale):
+            <input v-model.number="idUser" type="number" :disabled="loading" />
+          </label>
+          <button type="submit" :disabled="loading">
+            {{ loading ? 'Registrazione in corso...' : 'Registrati' }}
+          </button>
           <div v-if="error" class="error">{{ error }}</div>
+          <div v-if="success" class="success">{{ success }}</div>
           <div class="login-link">
             Hai già un account? 
             <router-link to="/login">Accedi qui</router-link>
@@ -28,42 +48,75 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-// import { register as registerService } from '@/services/authService';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/storage/auth'
+import { register as registerService } from '@/services/authService'
+import type { AuthUser } from '@/storage/auth'
 
-const router = useRouter();
+const router = useRouter()
+const authStore = useAuthStore()
 
-const form = ref({
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: ''
-});
-
-const error = ref('');
-const success = ref('');
+const username = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+const tipoUtente = ref('')
+const idUser = ref<number | null>(null)
+const error = ref('')
+const success = ref('')
+const loading = ref(false)
 
 async function handleRegister() {
-  error.value = '';
-  success.value = '';
+  error.value = ''
+  success.value = ''
 
   // Validazione password
-  if (form.value.password !== form.value.confirmPassword) {
-    error.value = 'Le password non corrispondono';
-    return;
+  if (password.value.length < 8) {
+    error.value = 'La password deve contenere almeno 8 caratteri'
+    return
   }
 
+  if (password.value !== confirmPassword.value) {
+    error.value = 'Le password non corrispondono'
+    return
+  }
+
+  if (!tipoUtente.value) {
+    error.value = 'Seleziona un tipo utente'
+    return
+  }
+
+  loading.value = true
+
   try {
-    // await registerService(form.value.username, form.value.email, form.value.password);
-    
-    // Temporaneo per test
-    success.value = 'Registrazione completata! Reindirizzamento al login...';
+    const response = await registerService({
+      username: username.value,
+      password: password.value,
+      tipoUtente: tipoUtente.value as 'ATLETA' | 'ALLENATORE' | 'ADMIN',
+      idUser: idUser.value,
+    })
+
+    success.value = 'Registrazione completata! Login automatico in corso...'
+
+    // Auto-login dopo registrazione
+    const authUser: AuthUser = {
+      username: response.username,
+      token: response.token,
+      tipoUtente: response.tipoUtente,
+      roles: response.roles,
+      userId: response.userId,
+    }
+
+    authStore.login(authUser)
+
+    // Redirect dopo un breve delay
     setTimeout(() => {
-      router.push('/login');
-    }, 2000);
+      router.push('/home')
+    }, 1000)
   } catch (e: any) {
-    error.value = e.response?.data?.message || 'Errore durante la registrazione';
+    error.value = e.response?.data?.message || 'Errore durante la registrazione. Riprova.'
+  } finally {
+    loading.value = false
   }
 }
 </script>
@@ -105,7 +158,7 @@ label {
   font-weight: 500;
 }
 
-input {
+input, select {
   width: 100%;
   padding: 10px;
   margin-top: 4px;
@@ -117,7 +170,13 @@ input {
   background: #f7faff;
 }
 
-input:focus {
+input:disabled, select:disabled {
+  background: #e8eef5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input:focus:not(:disabled), select:focus:not(:disabled) {
   border-color: #007bff;
   box-shadow: 0 0 0 2px #cce4ff;
 }
@@ -137,8 +196,14 @@ button {
   box-shadow: 0 2px 8px rgba(10,36,59,0.08);
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: linear-gradient(90deg, #0056b3 60%, #0a243b 100%);
+}
+
+button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .error {
