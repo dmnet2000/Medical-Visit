@@ -25,20 +25,53 @@
         <q-btn flat round icon="search" @click="$router.push('/home/squadre')" />
         <div class="menu-label">Gestione Squadre</div>
       </div>
-      
-      
-
     </div>
-    <q-toolbar-title class="q-ml-md">{{username}}</q-toolbar-title>
+    <q-toolbar-title class="q-ml-md">{{ username }} ({{ tipoUtente }})</q-toolbar-title>
+    <q-btn 
+      flat 
+      round 
+      icon="logout" 
+      @click="handleLogout"
+    >
+      <q-tooltip>Logout</q-tooltip>
+    </q-btn>
   </q-toolbar>
 </template>
 
 
 <script setup lang="ts">
-   import { QBtn, QToolbar, QToolbarTitle } from 'quasar';
-   import { defineProps } from 'vue';
+import { QBtn, QToolbar, QToolbarTitle, QTooltip } from 'quasar'
+import { defineProps } from 'vue'
+import { useAuthStore } from '@/storage/auth'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
-   const props = defineProps({
-       username: { type: String, default: '' }
-   });
+const props = defineProps({
+  username: { type: String, default: '' },
+  tipoUtente: { type: String, default: '' }
+})
+
+const authStore = useAuthStore()
+const router = useRouter()
+const $q = useQuasar()
+
+function handleLogout() {
+  $q.dialog({
+    title: 'Conferma Logout',
+    message: 'Sei sicuro di voler uscire?',
+    cancel: {
+      label: 'Annulla',
+      flat: true
+    },
+    ok: {
+      label: 'Logout',
+      flat: true
+    },
+    persistent: false
+  }).onOk(() => {
+    authStore.logout()
+    router.push('/login')
+  })
+}
 </script>
+
