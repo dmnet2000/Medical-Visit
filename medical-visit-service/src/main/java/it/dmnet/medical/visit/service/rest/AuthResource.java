@@ -33,7 +33,7 @@ public class AuthResource {
     public Response register(RegisterRequest request) {
         try {
             var auth = registrationService.registerNewUser(
-                    request.idAllenatore,
+                    request.idUser,
                     request.username,
                     request.password
             );

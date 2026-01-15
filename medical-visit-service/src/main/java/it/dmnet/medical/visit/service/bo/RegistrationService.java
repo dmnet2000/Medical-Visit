@@ -5,6 +5,7 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import it.dmnet.medical.visit.model.entity.AllenatoreEntity;
 import it.dmnet.medical.visit.model.entity.Authentication;
 import it.dmnet.medical.visit.model.repositories.AllenatoreRepository;
+import it.dmnet.medical.visit.model.repositories.AuthenticationRepositories;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,9 @@ public class RegistrationService {
 
     @Inject
     AllenatoreRepository allenatoreRepositories;
+
+    @Inject
+    AuthenticationRepositories authRepositories;
 
     /**
      * STEP 1: Registrazione nuovo utente con validazione
@@ -34,7 +38,7 @@ public class RegistrationService {
         }
 
         // 3. VALIDAZIONE - Allenatore ha già un account?
-        if (Authentication.findByIdAllenatore(idAllenatore) != null) {
+        if (authRepositories.findByIdAllenatore(idAllenatore) != null) {
             throw new IllegalArgumentException("Allenatore ha già un account di autenticazione");
         }
 
@@ -46,7 +50,7 @@ public class RegistrationService {
 
         // 6. CREAZIONE - Nuovo record authentication
         Authentication auth = new Authentication();
-        auth.idAllenatore = idAllenatore;
+        auth.idUser = idAllenatore;
         auth.username = username;
         auth.passwordHash = hashedPassword; // ← Salviamo l'hash, NON la password
         auth.attivo = true;

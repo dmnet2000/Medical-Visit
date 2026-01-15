@@ -9,10 +9,7 @@ import it.dmnet.medical.visit.model.entity.Authentication;
 import it.dmnet.medical.visit.model.entity.AuthenticationRoleEntity;
 import it.dmnet.medical.visit.model.entity.RoleEntity;
 import it.dmnet.medical.visit.model.enumeration.TipoUtente;
-import it.dmnet.medical.visit.model.repositories.AllenatoreRepository;
-import it.dmnet.medical.visit.model.repositories.AtletaRepository;
-import it.dmnet.medical.visit.model.repositories.AuthenticationRoleRepository;
-import it.dmnet.medical.visit.model.repositories.RoleRepositories;
+import it.dmnet.medical.visit.model.repositories.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -41,13 +38,16 @@ public class AuthService {
     @Inject
     AtletaRepository atletaRepository;
 
+    @Inject
+    AuthenticationRepositories authRepo;
+
     /**
      * Registrazione nuovo utente generico
      */
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         // 1. Validazione username univoco
-        if (Authentication.findByUsername(request.getUsername()) != null) {
+        if (authRepo.findByUsername(request.getUsername()) != null) {
             throw new BadRequestException("Username già esistente");
         }
 
