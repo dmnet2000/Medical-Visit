@@ -7,6 +7,7 @@ import it.dmnet.medical.visit.service.auth.AuthService;
 import it.dmnet.medical.visit.service.bo.LoginService;
 import it.dmnet.medical.visit.service.bo.PasswordChangeService;
 import it.dmnet.medical.visit.service.bo.RegistrationService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -32,6 +33,7 @@ public class AuthResource {
      */
     @POST
     @Path("/register")
+    @PermitAll
     public Response register(RegisterRequest request) {
         try {
             var auth = registrationService.registerNewUser(
@@ -61,6 +63,7 @@ public class AuthResource {
      */
     @POST
     @Path("/login")
+    @PermitAll
     public Response login(LoginRequest request) {
         AuthResponse response = authService.login(request);
         return Response.ok(response).build();  // Con JWT!
@@ -72,6 +75,7 @@ public class AuthResource {
      */
     @PUT
     @Path("/change-password")
+    @PermitAll
     public Response changePassword(ChangePasswordRequest request) {
         try {
             passwordChangeService.changePassword(

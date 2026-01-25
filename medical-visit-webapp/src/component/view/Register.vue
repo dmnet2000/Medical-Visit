@@ -25,7 +25,6 @@
               <option value="">Seleziona...</option>
               <option value="ATLETA">Atleta</option>
               <option value="ALLENATORE">Allenatore</option>
-              <option value="ADMIN">Admin</option>
             </select>
           </label>
           <label>
