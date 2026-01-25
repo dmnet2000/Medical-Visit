@@ -1,7 +1,9 @@
 package it.dmnet.medical.visit.service.rest;
 
 import it.dmnet.medical.visit.model.dto.*;
+import it.dmnet.medical.visit.model.dto.auth.AuthResponse;
 import it.dmnet.medical.visit.model.dto.auth.RegisterRequest;
+import it.dmnet.medical.visit.service.auth.AuthService;
 import it.dmnet.medical.visit.service.bo.LoginService;
 import it.dmnet.medical.visit.service.bo.PasswordChangeService;
 import it.dmnet.medical.visit.service.bo.RegistrationService;
@@ -19,7 +21,7 @@ public class AuthResource {
     RegistrationService registrationService;
 
     @Inject
-    LoginService loginService;
+    AuthService authService;
 
     @Inject
     PasswordChangeService passwordChangeService;
@@ -60,22 +62,8 @@ public class AuthResource {
     @POST
     @Path("/login")
     public Response login(LoginRequest request) {
-        LoginService.LoginResult result = loginService.login(
-                request.username,
-                request.password
-        );
-
-        if (result.success) {
-            return Response.ok(new SuccessResponse(
-                    result.message,
-                    result.authentication.id,
-                    result.authentication.username
-            )).build();
-        } else {
-            return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity(new ErrorResponse(result.message))
-                    .build();
-        }
+        AuthResponse response = authService.login(request);
+        return Response.ok(response).build();  // Con JWT!
     }
 
     /**

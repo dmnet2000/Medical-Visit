@@ -38,19 +38,27 @@ const router = createRouter({
     routes,
 })
 
-// Navigation guard
+
+
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   
-  // Ripristina autenticazione da localStorage
-  authStore.restoreAuth()
+  // Ripristina autenticazione da localStorage SOLO se non già autenticato
+  // (evita di chiamare restoreAuth() ad ogni navigazione)
+  if (!authStore.isAuthenticated) {
+    authStore.restoreAuth()
+  }
   
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const guestOnly = to.matched.some(record => record.meta.guest)
   
   if (requiresAuth && !authStore.isAuthenticated) {
     // Rotta protetta ma utente non autenticato
-    next('/login')
+    // Salva dove voleva andare per redirect post-login
+    next({ 
+      path: '/login', 
+      query: { redirect: to.fullPath } 
+    })
   } else if (guestOnly && authStore.isAuthenticated) {
     // Rotta per guest ma utente già autenticato
     next('/home')

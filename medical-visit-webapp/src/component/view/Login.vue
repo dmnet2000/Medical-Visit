@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '../../storage/auth'
-import { useRouter } from '@/router'
+import { useRouter } from 'vue-router'
 import { login as loginService } from '../../services/authService'
 import type { AuthUser } from '@/storage/auth'
 
@@ -57,7 +57,6 @@ async function handleLogin() {
       password: password.value,
     })
 
-    // Converti AuthResponse in AuthUser
     const authUser: AuthUser = {
       username: response.username,
       token: response.token,
@@ -68,13 +67,15 @@ async function handleLogin() {
 
     authStore.login(authUser)
     success.value = 'Login effettuato con successo!'
-    
-    // Redirect dopo un breve delay
+
+    // 🆕 Redirect alla pagina originale o /home
+    const redirect = (router.currentRoute.value.query.redirect as string) || '/home'
     setTimeout(() => {
-      router.push('/home')
+      router.push(redirect)
     }, 500)
-  } catch (e: any) {
-    error.value = e.response?.data?.message || 'Nome utente o password non validi'
+    
+  } catch (err: any) {
+    error.value = err.response?.data?.error || 'Errore durante il login'
   } finally {
     loading.value = false
   }
