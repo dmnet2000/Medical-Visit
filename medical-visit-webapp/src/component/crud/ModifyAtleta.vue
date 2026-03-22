@@ -42,7 +42,7 @@ function salva() {
     codFiscale: atleta?.codiceFiscale,
     newDate: data.value
   }
-  axios.post('http://localhost:8080/atleti/update-visita', payload)
+  axios.post('/atleti/update-visita', payload)
     .then(() => {
       emit('saved', data.value)
       emit('update:show', false)

@@ -58,7 +58,7 @@ async function uploadFile() {
   formData.append('file', selectedFile.value)
 
   try {
-    const response = await fetch('http://localhost:8080/atleti/import-excel', {
+    const response = await fetch('/atleti/import-excel', {
       method: 'POST',
       body: formData,
     })

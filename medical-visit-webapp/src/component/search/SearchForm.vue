@@ -83,7 +83,7 @@ const msg = ref(route.query.msg || '')
 
 async function onSearch() {
     try {
-        const response = await axios.post('http://localhost:8080/atleti/search', form.value);
+        const response = await axios.post('/atleti/search', form.value);
         atleti.value = Array.isArray(response.data) ? response.data : [];
         // Genera le colonne dinamicamente dalla prima risposta
         columns.value = atleti.value.length

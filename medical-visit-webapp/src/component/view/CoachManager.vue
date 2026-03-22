@@ -99,8 +99,8 @@
             color="negative"
             @click="onDeleteCoach(props.row)"
           />
-        </template>
-        </q-table>
+    </template>
+  </q-table>
 </div>
 <div v-else-if="searchResultsRequested" class="q-mt-md text-grey">
   Nessun allenatore trovato.
@@ -215,7 +215,7 @@ const searchResultsRequested = ref(false)
 
 async function loadCoaches() {
   try {
-    const res = await axios.get('http://localhost:8080/allenatori/list')
+    const res = await axios.get('/allenatori/list')
     coaches.value = res.data
   } catch (error) {
     coaches.value = []
@@ -232,10 +232,10 @@ function showList() {
 async function onCoachSave() {
    try {
     if (isEditMode.value) {
-      await axios.put(`http://localhost:8080/allenatori/update/${coach.value.id}`, coach.value)
+      await axios.put(`/allenatori/update/${coach.value.id}`, coach.value)
       alert('Allenatore modificato con successo!')
     } else {
-      await axios.post('http://localhost:8080/allenatori/insert', coach.value)
+      await axios.post('/allenatori/insert', coach.value)
       alert('Allenatore salvato con successo!')
     }
     coach.value = {
@@ -268,7 +268,7 @@ function onEditCoach(coachRow: any) {
 async function onDeleteCoach(coachRow: any) {
   if (confirm(`Vuoi davvero cancellare l'allenatore ${coachRow.nome} ${coachRow.cognome}?`)) {
     try {
-      await axios.delete(`http://localhost:8080/allenatori/delete/${coachRow.id}`)
+      await axios.delete(`/allenatori/delete/${coachRow.id}`)
       alert('Allenatore cancellato!')
       loadCoaches()
     } catch (error) {
@@ -281,7 +281,7 @@ async function onDeleteCoach(coachRow: any) {
 async function onCoachSearch() {
   try {
     // Adatta l'endpoint secondo il tuo backend
-    const res = await axios.get('http://localhost:8080/allenatori/search', {
+    const res = await axios.get('/allenatori/search', {
       params: {
         nome: searchForm.value.nome,
         cognome: searchForm.value.cognome

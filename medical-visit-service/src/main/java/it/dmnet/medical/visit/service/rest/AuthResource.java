@@ -12,11 +12,14 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.logging.Logger;
 
 @Path("/api/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
+
+    Logger log = Logger.getLogger(AuthResource.class.getName());
 
     @Inject
     RegistrationService registrationService;
@@ -65,6 +68,7 @@ public class AuthResource {
     @Path("/login")
     @PermitAll
     public Response login(LoginRequest request) {
+        log.info("log:" + request.getUsername());
         AuthResponse response = authService.login(request);
         return Response.ok(response).build();  // Con JWT!
     }

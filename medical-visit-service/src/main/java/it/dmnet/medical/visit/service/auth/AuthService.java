@@ -1,7 +1,6 @@
 package it.dmnet.medical.visit.service.auth;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
-
 import it.dmnet.medical.visit.model.dto.LoginRequest;
 import it.dmnet.medical.visit.model.dto.auth.AuthResponse;
 import it.dmnet.medical.visit.model.dto.auth.RegisterRequest;
@@ -15,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotAuthorizedException;
+import org.jboss.logging.Logger;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AuthService {
+
+    Logger log = Logger.getLogger(AuthService.class.getName());
 
     @Inject
     RoleRepositories roleRepository;
@@ -107,6 +109,7 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         // 1. Trova utente
         Authentication auth = Authentication.findByUsername(request.getUsername());
+        log.info("Login per utente:" + request.getUsername());
         if (auth == null) {
             throw new NotAuthorizedException("Credenziali non valide");
         }
@@ -134,18 +137,20 @@ public class AuthService {
         // Aggiungi sempre ruolo USER
         roles.add("USER");
 
+        String codUtente = auth.codUtente == null ? auth.codUtente.name() : "";
+
         // 6. Genera JWT
         String token = jwtService.generateToken(
                 auth.username,
                 roles,
-                auth.codUtente.name(),
+                codUtente,
                 auth.idUser
         );
 
         return new AuthResponse(
                 token,
                 auth.username,
-                auth.codUtente.name(),
+                codUtente,
                 roles,
                 auth.idUser
         );

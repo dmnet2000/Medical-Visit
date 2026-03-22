@@ -44,7 +44,7 @@ const msg = ref('')
 
 async function onInsertAnno() {
   try {
-    await axios.post('http://localhost:8080/anno/insert', anno.value)
+    await axios.post('/anno/insert', anno.value)
     msg.value = 'Anno agonistico inserito con successo!'
     anno.value.anno = ''
   } catch (error) {
@@ -56,7 +56,7 @@ async function onInsertAnno() {
 
 async function loadAnni() {
   try {
-    const res = await axios.get('http://localhost:8080/anno/list')
+    const res = await axios.get('/anno/list')
     anni.value = res.data
   } catch (error) {
     anni.value = []

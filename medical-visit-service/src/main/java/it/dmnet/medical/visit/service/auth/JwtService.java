@@ -19,13 +19,17 @@ public class JwtService {
      * Genera token JWT con username, ruoli e tipo utente
      */
     public String generateToken(String username, Set<String> roles, String tipoUtente, Long userId) {
-        return Jwt.issuer(issuer)
-                .upn(username)  // Username come "User Principal Name"
-                .groups(roles)  // Ruoli dell'utente
-                .claim("tipo_utente", tipoUtente)  // Custom claim
-                .claim("user_id", userId)  // ID dell'utente (atleta/allenatore)
-                .expiresIn(Duration.ofHours(expirationHours))
-                .sign();
+        var builder = Jwt.issuer(issuer)
+                .upn(username)
+                .groups(roles)
+                .claim("tipo_utente", tipoUtente)
+                .expiresIn(Duration.ofHours(expirationHours));
+
+        if (userId != null) {
+            builder.claim("user_id", userId);
+        }
+
+        return builder.sign();
     }
 
 }
